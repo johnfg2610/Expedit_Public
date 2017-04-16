@@ -1,5 +1,7 @@
 package io.github.johnfg10.utils.storage;
 
+import io.github.johnfg10.ExpeditConst;
+
 import java.sql.*;
 
 /**
@@ -20,15 +22,18 @@ public class GeneralSettingsDatabaseUtils {
         this.schema = schema;
         try {
             excuteSql(
-                    "CREATE TABLE IF NOT EXISTS botdatabase.generalsettings (" +
+                    "CREATE TABLE IF NOT EXISTS " +
+                            schema +
+                            ".generalsettings (" +
                             "id INT NOT NULL AUTO_INCREMENT," +
                             "PRIMARY KEY(id)," +
                             "UNIQUE (ID)," +
                             "guildid varchar(255) NOT NULL," +
                             "UNIQUE (guildid)," +
-                            "defaultprefix varchar(255) NOT NULL," +
-                            "modrole varchar(255) NOT NULL" +
-                            "musicchannel varchar(255)" +
+                            "defaultprefix varchar(255) DEFAULT '!'," +
+                            "modrole varchar(255)  DEFAULT 'expeditMod'," +
+                            "musicText varchar(255) DEFAULT 'Music'," +
+                            "musicVoice varchar(255) DEFAULT 'MusicChannel'" +
                             ")"
             );
         } catch (SQLException | InstantiationException | ClassNotFoundException | IllegalAccessException e) {
@@ -58,7 +63,10 @@ public class GeneralSettingsDatabaseUtils {
                 (String.format("jdbc:mysql://%1s:%2s/%3s?serverTimezone=GMT&useSSL=false", hostname, String.valueOf(port), schema), username, password);
 
         Statement stmt = conn.createStatement();
-        resultSet = stmt.executeQuery(String.format("SELECT %1s FROM botdatabase.generalsettings WHERE guildid = '%2s';", setting, guildid));
+        resultSet = stmt.executeQuery(String.format(
+                "SELECT %1s FROM " +
+                getSchema() +
+                ".generalsettings WHERE guildid = '%2s';", setting, guildid));
         while (resultSet.next()){
             returnValue = resultSet.getString(setting);
         }
@@ -66,6 +74,10 @@ public class GeneralSettingsDatabaseUtils {
         conn.close();
         resultSet.close();
         return returnValue;
+    }
+
+    public void setupDefaultGuildEntry(String guildID) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        excuteSql(String.format("INSERT INTO %1s.generalsettings (guildid, defaultprefix, modrole, musicVoice) VALUES (%2s, '^', 'expeditmod', 'music')", getSchema(), guildID));
     }
 
     public String getUsername() {

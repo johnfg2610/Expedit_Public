@@ -6,6 +6,7 @@ import sx.blah.discord.api.events.IListener;
 import sx.blah.discord.handle.impl.events.UserVoiceChannelJoinEvent;
 import sx.blah.discord.util.MissingPermissionsException;
 
+import java.sql.SQLException;
 import java.util.Objects;
 
 /**
@@ -14,8 +15,8 @@ import java.util.Objects;
 public class onUserVoiceChannelJoinEvent implements IListener<UserVoiceChannelJoinEvent> {
     @Override
     public void handle(UserVoiceChannelJoinEvent event) {
-            //ToDo make this configurable
-            if (event.getChannel().getName().matches("Music_Channel")){
+        try {
+            if (event.getChannel().getName().matches(ExpeditConst.databaseUtils.getSetting("musicVoice", event.getChannel().getGuild().getID()))){
                 try {
                     event.getChannel().join();
                     ExpeditConst.audioHelper.getGuildAudioPlayer(event.getChannel().getGuild()).player.setPaused(false);
@@ -23,5 +24,14 @@ public class onUserVoiceChannelJoinEvent implements IListener<UserVoiceChannelJo
                     e.printStackTrace();
                 }
             }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

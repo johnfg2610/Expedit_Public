@@ -9,6 +9,7 @@ import io.github.johnfg10.utils.AudioHelper;
 import io.github.johnfg10.utils.AudioUtils;
 import io.github.johnfg10.utils.GuildMusicManager;
 import io.github.johnfg10.utils.RequestBufferHelper;
+import io.github.johnfg10.utils.storage.GeneralSettingsDatabaseUtils;
 import io.github.johnfg10.utils.websiteHelpers.YoutubeHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,6 +23,8 @@ import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,24 +35,31 @@ import java.util.regex.Pattern;
 public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor {
     @Command(aliases = {"join", "joinme"})
     public void onCommandJoin(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-/*        if (user.getConnectedVoiceChannels() == null || user.getConnectedVoiceChannels().size() <= 0){
-            RequestBufferHelper.RequestBuffer(channel, "You are not in a voice channel!");
-        }else {
-            user.getConnectedVoiceChannels().get(0).join();
-        }*/
-        if (message.getChannel() == guild.getChannelsByName("musicchannel").get(0)) {
+        System.out.println("will do");
+
+        musicChannels mc = this.musicHelper(channel, guild);
+
+        String musicText = mc.getMusicText();
+        String musicVoice = mc.getMusicVoice();
+        System.out.println(musicText);
+        if (message.getChannel() == guild.getChannelsByName(musicText).get(0) || !mc.isShouldUseText()){
             if (user.getConnectedVoiceChannels() == null || user.getConnectedVoiceChannels().size() <= 0) {
                 RequestBufferHelper.RequestBuffer(channel, "You are not in a voice channel!");
             } else {
                 ExpeditConst.audioHelper.getGuildAudioPlayer(guild).player.setPaused(false);
-                guild.getVoiceChannelsByName("Music_Channel").get(0).join();
+                guild.getVoiceChannelsByName(musicVoice).get(0).join();
             }
         }
     }
 
     @Command(aliases = {"leave", "leaveme"})
     public void onCommandLeave(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        if (message.getChannel() == guild.getChannelsByName("musicchannel").get(0)) {
+        musicChannels mc = this.musicHelper(channel, guild);
+
+        String musicText = mc.getMusicText();
+        String musicVoice = mc.getMusicVoice();
+
+        if (message.getChannel() == guild.getChannelsByName(musicText).get(0) || !mc.isShouldUseText()) {
             guild.getConnectedVoiceChannel().leave();
             ExpeditConst.audioHelper.getGuildAudioPlayer(guild).player.setPaused(true);
         }
@@ -57,7 +67,12 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
 
     @Command(aliases = {"addqueue", "queue", "play"})
     public void onCommandQueue(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        if (message.getChannel() == guild.getChannelsByName("musicchannel").get(0)) {
+        musicChannels mc = this.musicHelper(channel, guild);
+
+        String musicText = mc.getMusicText();
+        String musicVoice = mc.getMusicVoice();
+
+        if (message.getChannel() == guild.getChannelsByName(musicText).get(0) || !mc.isShouldUseText()) {
             if (!guild.getConnectedVoiceChannel().isConnected()) {
                 RequestBufferHelper.RequestBuffer(channel, "Please use the join command first!");
             } else {
@@ -68,7 +83,12 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
 
     @Command(aliases = {"skip", "jump"})
     public void onCommandSkip(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        if (message.getChannel() == guild.getChannelsByName("musicchannel").get(0)) {
+        musicChannels mc = this.musicHelper(channel, guild);
+
+        String musicText = mc.getMusicText();
+        String musicVoice = mc.getMusicVoice();
+
+        if (message.getChannel() == guild.getChannelsByName(musicText).get(0) || !mc.isShouldUseText()) {
             if (!guild.getConnectedVoiceChannel().isConnected()) {
                 RequestBufferHelper.RequestBuffer(channel, "Please use the join command first!");
             } else {
@@ -79,7 +99,12 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
 
     @Command(aliases = {"searchplay", "yt", "ytt"})
     public void onCommandSearchPlay(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException, IOException, UnirestException {
-        if (message.getChannel() == guild.getChannelsByName("musicchannel").get(0)) {
+        musicChannels mc = this.musicHelper(channel, guild);
+
+        String musicText = mc.getMusicText();
+        String musicVoice = mc.getMusicVoice();
+
+        if (message.getChannel() == guild.getChannelsByName(musicText).get(0) || !mc.isShouldUseText()) {
             if (!guild.getConnectedVoiceChannel().isConnected()) {
                 RequestBufferHelper.RequestBuffer(channel, "Please use the join command first!");
             } else {
@@ -110,7 +135,12 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
 
     @Command(aliases = {"vol", "volume"})
     public void onCommandVolume(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        if (message.getChannel() == guild.getChannelsByName("musicchannel").get(0)) {
+        musicChannels mc = this.musicHelper(channel, guild);
+
+        String musicText = mc.getMusicText();
+        String musicVoice = mc.getMusicVoice();
+
+        if (message.getChannel() == guild.getChannelsByName(musicText).get(0) || !mc.isShouldUseText()) {
             if (!guild.getConnectedVoiceChannel().isConnected()) {
 
                 RequestBufferHelper.RequestBuffer(channel, "Please use the join command first!");
@@ -122,7 +152,12 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
 
     @Command(aliases = {"pause", "wait"})
     public void onCommandPause(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        if (message.getChannel() == guild.getChannelsByName("musicchannel").get(0)) {
+        musicChannels mc = this.musicHelper(channel, guild);
+
+        String musicText = mc.getMusicText();
+        String musicVoice = mc.getMusicVoice();
+
+        if (message.getChannel() == guild.getChannelsByName(musicText).get(0) || !mc.isShouldUseText()) {
             if (!guild.getConnectedVoiceChannel().isConnected()) {
                 RequestBufferHelper.RequestBuffer(channel, "Please use the join command first!");
             } else {
@@ -133,7 +168,12 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
 
     @Command(aliases = {"info", "trackinfo"})
     public void onCommandInfo(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        if (message.getChannel() == guild.getChannelsByName("musicchannel").get(0)) {
+        musicChannels mc = this.musicHelper(channel, guild);
+
+        String musicText = mc.getMusicText();
+        String musicVoice = mc.getMusicVoice();
+
+        if (message.getChannel() == guild.getChannelsByName(musicText).get(0) || !mc.isShouldUseText()) {
             if (!guild.getConnectedVoiceChannel().isConnected()) {
                 RequestBufferHelper.RequestBuffer(channel, "Please use the join command first!");
             } else {
@@ -152,7 +192,12 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
 
     @Command(aliases = {"stop"})
     public void onCommandStop(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        if (message.getChannel() == guild.getChannelsByName("musicchannel").get(0)) {
+        musicChannels mc = this.musicHelper(channel, guild);
+
+        String musicText = mc.getMusicText();
+        String musicVoice = mc.getMusicVoice();
+
+        if (message.getChannel() == guild.getChannelsByName(musicText).get(0) || !mc.isShouldUseText()) {
             if (!guild.getConnectedVoiceChannel().isConnected()) {
                 RequestBufferHelper.RequestBuffer(channel, "Please use the join command first!");
             } else {
@@ -164,7 +209,12 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
 
     @Command(aliases = {"ytplaylist", "ytpl", "pl"})
     public void onCommandPlaylist(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException, UnirestException {
-        if (message.getChannel() == guild.getChannelsByName("musicchannel").get(0)) {
+        musicChannels mc = this.musicHelper(channel, guild);
+
+        String musicText = mc.getMusicText();
+        String musicVoice = mc.getMusicVoice();
+
+        if (message.getChannel() == guild.getChannelsByName(musicText).get(0) || !mc.isShouldUseText()) {
             if (!guild.getConnectedVoiceChannel().isConnected()) {
                 RequestBufferHelper.RequestBuffer(channel, "Please use the join command first!");
             } else {
@@ -195,7 +245,12 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
 
     @Command(aliases = {"playlistinfo", "plinfo"})
     public void onCommandPlaylistInfo(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException, UnirestException {
-        if (message.getChannel() == guild.getChannelsByName("musicchannel").get(0)) {
+        musicChannels mc = this.musicHelper(channel, guild);
+
+        String musicText = mc.getMusicText();
+        String musicVoice = mc.getMusicVoice();
+
+        if (message.getChannel() == guild.getChannelsByName(musicText).get(0) || !mc.isShouldUseText()) {
             if (!guild.getConnectedVoiceChannel().isConnected()) {
                 RequestBufferHelper.RequestBuffer(channel, "Please use the join command first!");
             } else {
@@ -213,6 +268,55 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
 
                 RequestBufferHelper.RequestBuffer(channel, "", embedBuilder, false);
             }
+        }
+    }
+
+    public musicChannels musicHelper(IChannel channel, IGuild guild) throws RateLimitException, DiscordException, MissingPermissionsException {
+        String musicVoice = null;
+        String musicText = null;
+        boolean shouldUseText = true;
+        try {
+            musicVoice = ExpeditConst.databaseUtils.getSetting("musicVoice", guild.getID());
+            musicText = ExpeditConst.databaseUtils.getSetting("musicText", guild.getID());
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (musicText == null){
+            shouldUseText = false;
+        }
+
+        if (musicVoice == null){
+            Random rnd = new Random();
+            if (rnd.nextInt() < 1000){
+                channel.sendMessage("It would appear there is no custom music voice channel setup reverting to default \n default: 'music_channel'");
+            }
+        }
+
+        return new musicChannels(musicText, musicVoice, shouldUseText);
+    }
+
+    class musicChannels{
+        private String musicText;
+        private String musicVoice;
+        private boolean shouldUseText;
+
+        public musicChannels(String musicT, String musicV, boolean sut) {
+            musicText = musicT;
+            musicVoice = musicV;
+            shouldUseText = sut;
+        }
+
+        public String getMusicText() {
+            return musicText;
+        }
+
+        public String getMusicVoice() {
+            return musicVoice;
+        }
+
+        public boolean isShouldUseText() {
+            return shouldUseText;
         }
     }
 }

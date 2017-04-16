@@ -1,5 +1,8 @@
 package io.github.johnfg10.handlers;
 
+import io.github.johnfg10.Expedit;
+import io.github.johnfg10.ExpeditConst;
+import io.github.johnfg10.utils.storage.GeneralSettingsDatabaseUtils;
 import sx.blah.discord.api.events.IListener;
 import sx.blah.discord.handle.impl.events.UserJoinEvent;
 import sx.blah.discord.handle.impl.obj.Role;
@@ -11,13 +14,15 @@ import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
 
+import java.sql.SQLException;
+
 /**
  * Created by johnfg10 on 17/03/2017.
  */
 public class onUserJoinEvent implements IListener<UserJoinEvent> {
     @Override
     public void handle(UserJoinEvent event) {
-        IRole role = event.getGuild().getRolesByName("Member").get(0);
+/*        IRole role = event.getGuild().getRolesByName("Member").get(0);
         if(role != null){
             try {
                 event.getUser().addRole(role);
@@ -42,6 +47,20 @@ public class onUserJoinEvent implements IListener<UserJoinEvent> {
             channel1.sendMessage("", embedBuilder.build(), false);
         } catch (MissingPermissionsException | RateLimitException | DiscordException e) {
             e.printStackTrace();
+        }*/
+
+        if (event.getUser().equals(ExpeditConst.iDiscordClient.getOurUser())){
+            try {
+                ExpeditConst.databaseUtils.setupDefaultGuildEntry(event.getGuild().getID());
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
