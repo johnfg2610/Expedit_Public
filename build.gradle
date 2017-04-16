@@ -1,0 +1,48 @@
+group 'io.github.johnfg10'
+version '1.1.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        url  "https://jitpack.io"
+    }
+    maven {
+        url  "http://repo.bastian-oppermann.de"
+    }
+    jcenter()
+}
+
+configurations {
+    // configuration that holds jars to include in the jar
+    required
+}
+
+dependencies {
+    required "com.github.austinv11:Discord4j:2.7.0"
+    required "de.btobastian.sdcf4j:sdcf4j-core:1.0.4"
+    required "de.btobastian.sdcf4j:sdcf4j-discord4j:1.0.4"
+    required "ninja.leaping.configurate:configurate-hocon:3.1"
+    required group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.2'
+    required "com.mashape.unirest:unirest-java:1.4.9"
+    required "com.sedmelluq:lavaplayer:1.2.34"
+    required group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+    required fileTree(dir: 'libs', include: '*.jar')
+    configurations.compile.extendsFrom(configurations.required)
+}
+
+jar {
+    from {
+        configurations.required.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'io.github.johnfg10.Expedit'
+        )
+    }
+}
