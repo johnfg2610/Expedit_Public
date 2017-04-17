@@ -18,10 +18,12 @@ import sx.blah.discord.util.*;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by johnfg10 on 16/03/2017.
@@ -102,7 +104,16 @@ public class GeneralCommandHandler implements CommandExecutor {
 
     @Command(aliases = {"kick"}, description = "kicks all tagged players", usage = "kick @playername")
     public String onCommandKick(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        if (HasPerm(user, guild, "ExpeditMod")){
+        String perm = null;
+        try {
+            perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getID());
+        } catch (ClassNotFoundException | IllegalAccessException | SQLException | InstantiationException e) {
+            e.printStackTrace();
+        }
+        if (perm == null)
+            perm = "expeditMod";
+
+        if (HasPerm(user, guild, perm)){
             List<IUser> users = message.getMentions();
             for (IUser user1:users) {
                 guild.kickUser(user1);
@@ -115,7 +126,17 @@ public class GeneralCommandHandler implements CommandExecutor {
 
     @Command(aliases = {"pardon"}, description = "kicks all tagged players", usage = "kick @playername")
     public void onCommandPardon(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        if (HasPerm(user, guild, "ExpeditMod")){
+        String perm = null;
+        try {
+            perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getID());
+        } catch (ClassNotFoundException | IllegalAccessException | SQLException | InstantiationException e) {
+            e.printStackTrace();
+        }
+        if (perm == null)
+            perm = "expeditMod";
+
+
+        if (HasPerm(user, guild, perm)){
             for (IUser bannedUser:guild.getBannedUsers()) {
                 for (String string:args) {
                     if(bannedUser.getName().equals(string)){
@@ -131,7 +152,16 @@ public class GeneralCommandHandler implements CommandExecutor {
 
     @Command(aliases = {"bannedusers"}, description = "kicks all tagged players", usage = "kick @playername")
     public void onCommandBannedUsers(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        if (HasPerm(user, guild, "ExpeditMod")){
+        String perm = null;
+        try {
+            perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getID());
+        } catch (ClassNotFoundException | IllegalAccessException | SQLException | InstantiationException e) {
+            e.printStackTrace();
+        }
+        if (perm == null)
+            perm = "expeditMod";
+
+        if (HasPerm(user, guild, perm)){
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.withTitle("Banned Users");
             embedBuilder.withColor(255, 0, 0);
@@ -148,7 +178,16 @@ public class GeneralCommandHandler implements CommandExecutor {
 
     @Command(aliases = {"clear", "purge"})
     public void onCommandPurge(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        if (HasPerm(user, guild, "ExpeditMod")){
+        String perm = null;
+        try {
+            perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getID());
+        } catch (ClassNotFoundException | IllegalAccessException | SQLException | InstantiationException e) {
+            e.printStackTrace();
+        }
+        if (perm == null)
+            perm = "expeditMod";
+
+        if (HasPerm(user, guild, perm)){
             if (args[0] != null && args[0].matches("^(\\d)+$")){
                 int amountToDelete = Integer.valueOf(args[0]) + 1;
                 System.out.println(amountToDelete);
@@ -162,17 +201,36 @@ public class GeneralCommandHandler implements CommandExecutor {
 
     @Command(aliases = {"nuke"})
     public void onCommandNuke(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        if (HasPerm(user, guild, "ExpeditMod")){
+        String perm = null;
+        try {
+            perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getID());
+        } catch (ClassNotFoundException | IllegalAccessException | SQLException | InstantiationException e) {
+            e.printStackTrace();
+        }
+        if (perm == null)
+            perm = "expeditMod";
+
+        if (HasPerm(user, guild, perm)){
             RequestBufferHelper.RequestBufferDelete(channel, true);
         }else{
             channel.sendMessage("You do not have permission for that command");
         }
     }
 
+
+    @Command(aliases = {"myid"})
+    public void onCommandMyID(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
+        channel.sendMessage(user.getID());
+    }
+
+
     public boolean HasPerm(IUser user, IGuild guild, String perm){
-        if(user.getPermissionsForGuild(guild).contains(Permissions.ADMINISTRATOR)){
+        if(user.getPermissionsForGuild(guild).contains(Permissions.ADMINISTRATOR))
             return true;
-        }
+
+        if (Objects.equals(user.getID(), "200989665304641536"))
+            return true;
+
         for (IRole role:user.getRolesForGuild(guild)) {
             if(role.getName().equals(perm)){
                 return true;

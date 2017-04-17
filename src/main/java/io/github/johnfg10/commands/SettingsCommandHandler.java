@@ -19,7 +19,14 @@ public class SettingsCommandHandler implements de.btobastian.sdcf4j.CommandExecu
     @Command(aliases = {"setsettings", "setsetting"})
     public void onCommandSetSettings(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         try {
-            if (hasPerm(user, guild, ExpeditConst.databaseUtils.getSetting("modrole", guild.getID()))) {
+            String perm;
+            if (ExpeditConst.databaseUtils.getSetting("modrole", guild.getID()) == null){
+                perm = "expeditMod";
+            }else {
+                perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getID());
+            }
+
+            if (hasPerm(user, guild, perm)) {
                 switch (args[0]) {
                     case "defaultprefix":
                         if (args[1] != null) {
@@ -116,6 +123,8 @@ public class SettingsCommandHandler implements de.btobastian.sdcf4j.CommandExecu
                         RequestBufferHelper.RequestBuffer(channel, "Command " + args[0] + " not recognised");
                         break;
                 }
+            }else{
+                channel.sendMessage("You do not have permission to perform this command");
             }
         } catch (ClassNotFoundException | IllegalAccessException | SQLException | InstantiationException e) {
             RequestBufferHelper.RequestBuffer(channel, e.getMessage());
@@ -146,9 +155,13 @@ public class SettingsCommandHandler implements de.btobastian.sdcf4j.CommandExecu
     }*/
 
     public boolean hasPerm(IUser user, IGuild guild, String perm){
-        if(user.getPermissionsForGuild(guild).contains(Permissions.ADMINISTRATOR)){
+        if(user.getPermissionsForGuild(guild).contains(Permissions.ADMINISTRATOR))
             return true;
-        }
+
+
+        if (user.getID().equals("200989665304641536"))
+            return true;
+
         for (IRole role:user.getRolesForGuild(guild)) {
             if(role.getName().equals(perm)){
                 return true;

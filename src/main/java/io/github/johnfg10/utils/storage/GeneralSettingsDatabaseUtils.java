@@ -30,9 +30,9 @@ public class GeneralSettingsDatabaseUtils {
                             "UNIQUE (ID)," +
                             "guildid varchar(255) NOT NULL," +
                             "UNIQUE (guildid)," +
-                            "defaultprefix varchar(255) DEFAULT '!'," +
+                            "defaultprefix varchar(255) DEFAULT '^'," +
                             "modrole varchar(255)  DEFAULT 'expeditMod'," +
-                            "musicText varchar(255) DEFAULT 'Music'," +
+                            "musicText varchar(255)," +
                             "musicVoice varchar(255) DEFAULT 'MusicChannel'" +
                             ")"
             );
@@ -73,7 +73,10 @@ public class GeneralSettingsDatabaseUtils {
         stmt.close();
         conn.close();
         resultSet.close();
-        return returnValue;
+        if (returnValue == null)
+            return "nothing";
+        else
+            return returnValue;
     }
 
     public void setupDefaultGuildEntry(String guildID) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
