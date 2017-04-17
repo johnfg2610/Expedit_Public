@@ -14,14 +14,16 @@ import java.util.List;
  * Created by johnfg10 on 28/03/2017.
  */
 public class RequestBufferHelper {
-    public static void RequestBuffer(IChannel channel, String message){
+    public static IMessage RequestBuffer(IChannel channel, String message){
         RequestBuffer.request(() -> {
             try {
-                channel.sendMessage(message);
+                return channel.sendMessage(message);
             } catch (MissingPermissionsException e) {
                 Discord4J.LOGGER.error("Missing permissions", e);
-            } catch (DiscordException e) {}
+                return null;
+            } catch (DiscordException e) {return null;}
         });
+        return null;
     }
 
     public static void RequestBuffer(IChannel channel, String message, EmbedObject embedObject, boolean tts){
