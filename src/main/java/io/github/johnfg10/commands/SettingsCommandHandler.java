@@ -12,6 +12,8 @@ import sx.blah.discord.util.RateLimitException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static io.github.johnfg10.utils.MessageUtil.hasPerm;
+
 /**
  * Created by johnfg10 on 02/04/2017.
  */
@@ -153,20 +155,4 @@ public class SettingsCommandHandler implements de.btobastian.sdcf4j.CommandExecu
                 break;
         }
     }*/
-
-    public boolean hasPerm(IUser user, IGuild guild, String perm){
-        if(user.getPermissionsForGuild(guild).contains(Permissions.ADMINISTRATOR))
-            return true;
-
-
-        if (user.getID().equals("200989665304641536"))
-            return true;
-
-        for (IRole role:user.getRolesForGuild(guild)) {
-            if(role.getName().equals(perm)){
-                return true;
-            }
-        }
-        return false;
-    }
 }

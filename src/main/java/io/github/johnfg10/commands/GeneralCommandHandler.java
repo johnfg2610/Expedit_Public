@@ -1,29 +1,24 @@
 package io.github.johnfg10.commands;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import de.btobastian.sdcf4j.Command;
 import de.btobastian.sdcf4j.CommandExecutor;
 import de.btobastian.sdcf4j.CommandHandler;
 import io.github.johnfg10.ExpeditConst;
 import io.github.johnfg10.utils.RequestBufferHelper;
-import org.json.JSONObject;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
-import sx.blah.discord.handle.impl.obj.Message;
-import sx.blah.discord.handle.obj.*;
-import sx.blah.discord.util.*;
+import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.handle.obj.IUser;
+import sx.blah.discord.util.DiscordException;
+import sx.blah.discord.util.EmbedBuilder;
+import sx.blah.discord.util.MissingPermissionsException;
+import sx.blah.discord.util.RateLimitException;
 
-
-import java.io.IOException;
-import java.net.InetAddress;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
+import static io.github.johnfg10.utils.MessageUtil.hasPerm;
 
 /**
  * Created by johnfg10 on 16/03/2017.
@@ -64,18 +59,9 @@ public class GeneralCommandHandler implements CommandExecutor {
         user.getOrCreatePMChannel().sendMessage("", returnObject, false);
     }
 
-/*    @Command(aliases = {"test"}, description = "Tests a thing! may or may not be empty")
-    public String onCommandTest(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) {
-        if (HasPerm(user, guild, "ExpeditMod")){
-            return guild.getID();
-        }else{
-            return "You do not have permission for that command";
-        }
-    }*/
-
     @Command(aliases = {"ban"}, description = "bans all tagged players", usage = "ban @playername")
     public String onCommandBan(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        if (HasPerm(user, guild, "ExpeditMod")){
+        if (hasPerm(user, guild, "ExpeditMod")){
             List<IUser> users = message.getMentions();
             for (IUser user1:users) {
                 guild.banUser(user1);
@@ -97,7 +83,7 @@ public class GeneralCommandHandler implements CommandExecutor {
         if (perm == null)
             perm = "expeditMod";
 
-        if (HasPerm(user, guild, perm)){
+        if (hasPerm(user, guild, perm)){
             List<IUser> users = message.getMentions();
             for (IUser user1:users) {
                 guild.kickUser(user1);
@@ -120,7 +106,7 @@ public class GeneralCommandHandler implements CommandExecutor {
             perm = "expeditMod";
 
 
-        if (HasPerm(user, guild, perm)){
+        if (hasPerm(user, guild, perm)){
             for (IUser bannedUser:guild.getBannedUsers()) {
                 for (String string:args) {
                     if(bannedUser.getName().equals(string)){
@@ -145,7 +131,7 @@ public class GeneralCommandHandler implements CommandExecutor {
         if (perm == null)
             perm = "expeditMod";
 
-        if (HasPerm(user, guild, perm)){
+        if (hasPerm(user, guild, perm)){
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.withTitle("Banned Users");
             embedBuilder.withColor(255, 0, 0);
@@ -171,7 +157,7 @@ public class GeneralCommandHandler implements CommandExecutor {
         if (perm == null)
             perm = "expeditMod";
 
-        if (HasPerm(user, guild, perm)){
+        if (hasPerm(user, guild, perm)){
             if (args[0] != null && args[0].matches("^(\\d)+$")){
                 int amountToDelete = Integer.valueOf(args[0]) + 1;
                 System.out.println(amountToDelete);
@@ -194,25 +180,11 @@ public class GeneralCommandHandler implements CommandExecutor {
         if (perm == null)
             perm = "expeditMod";
 
-        if (HasPerm(user, guild, perm)){
+        if (hasPerm(user, guild, perm)){
             RequestBufferHelper.RequestBufferDelete(channel, true);
         }else{
             channel.sendMessage("You do not have permission for that command");
         }
     }
 
-    public boolean HasPerm(IUser user, IGuild guild, String perm){
-        if(user.getPermissionsForGuild(guild).contains(Permissions.ADMINISTRATOR))
-            return true;
-
-        if (Objects.equals(user.getID(), "200989665304641536"))
-            return true;
-
-        for (IRole role:user.getRolesForGuild(guild)) {
-            if(role.getName().equals(perm)){
-                return true;
-            }
-        }
-        return false;
-    }
 }
