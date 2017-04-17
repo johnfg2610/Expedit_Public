@@ -30,22 +30,6 @@ import java.util.Objects;
  */
 public class GeneralCommandHandler implements CommandExecutor {
 
-    @Command(aliases = {"ping"}, description = "Pong!", async = true)
-    public void onCommandPing(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        LocalDateTime now = LocalDateTime.now();
-
-        DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("AAAAAAAAAA");
-        long messageMicro = Long.valueOf(dtf1.format(message.getTimestamp()));
-        long micro = Long.valueOf(dtf1.format(now));
-
-        EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.withTitle("Pong!");
-        embedBuilder.appendField("Micro seconds taken" , String.valueOf(messageMicro - micro), true);
-        EmbedObject returnObject = embedBuilder.build();
-
-        channel.sendMessage("", returnObject, false);
-    }
-
     @Command(aliases = {"help", "halp", "welp"}, description = "Help", async = true)
     public void onCommandHelp(IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         EmbedBuilder embedBuilder = new EmbedBuilder();
@@ -216,13 +200,6 @@ public class GeneralCommandHandler implements CommandExecutor {
             channel.sendMessage("You do not have permission for that command");
         }
     }
-
-
-    @Command(aliases = {"myid"})
-    public void onCommandMyID(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        channel.sendMessage(user.getID());
-    }
-
 
     public boolean HasPerm(IUser user, IGuild guild, String perm){
         if(user.getPermissionsForGuild(guild).contains(Permissions.ADMINISTRATOR))
