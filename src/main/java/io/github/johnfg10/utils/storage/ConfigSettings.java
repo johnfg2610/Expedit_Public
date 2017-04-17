@@ -34,7 +34,8 @@ public class ConfigSettings {
 
             node.getNode("token", "youtubeapi").setValue("").setComment("your youtube api key");
             node.getNode("token", "clienttoken").setValue("").setComment("the discord client token");
-            node.getNode("misc", "defaultprefix").setValue("^").setComment("the discord client token");
+            node.getNode("token", "githublogin").setValue("").setComment("the youtube login");
+            node.getNode("token", "githubpass").setValue("").setComment("the youtube password");
             loader.save(node);
         }
         loader = HoconConfigurationLoader.builder().setFile(file).build(); // Create the loader
