@@ -47,7 +47,8 @@ public class Expedit {
         ExpeditConst.youtubeApi = configSettings.getNode().getNode("token", "youtubeapi").getString();
         ExpeditConst.audioHelper = new AudioHelper();
         ExpeditConst.commandHandler = new Discord4JHandler(ExpeditConst.iDiscordClient);
-        ExpeditConst.commandHandler.setDefaultPrefix(configSettings.getNode().getNode("misc", "defaultprefix").getString());
+        ExpeditConst.commandHandler.setDefaultPrefix("^");
+        ExpeditConst.configSettings = configSettings;
 
         ExpeditConst.commandHandler.registerCommand(new GeneralCommandHandler());
         ExpeditConst.commandHandler.registerCommand(new AudioCommandHandler());
