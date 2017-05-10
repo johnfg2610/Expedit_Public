@@ -81,7 +81,7 @@ public class GeneralCommandHandler implements CommandExecutor {
             e.printStackTrace();
         }
         if (perm == null)
-            perm = "expeditMod";
+            perm = "ExpeditMod";
 
         if (hasPerm(user, guild, perm)){
             List<IUser> users = message.getMentions();
@@ -103,7 +103,7 @@ public class GeneralCommandHandler implements CommandExecutor {
             e.printStackTrace();
         }
         if (perm == null)
-            perm = "expeditMod";
+            perm = "ExpeditMod";
 
 
         if (hasPerm(user, guild, perm)){
@@ -129,7 +129,7 @@ public class GeneralCommandHandler implements CommandExecutor {
             e.printStackTrace();
         }
         if (perm == null)
-            perm = "expeditMod";
+            perm = "ExpeditMod";
 
         if (hasPerm(user, guild, perm)){
             EmbedBuilder embedBuilder = new EmbedBuilder();
@@ -155,7 +155,7 @@ public class GeneralCommandHandler implements CommandExecutor {
             e.printStackTrace();
         }
         if (perm == null)
-            perm = "expeditMod";
+            perm = "ExpeditMod";
 
         if (hasPerm(user, guild, perm)){
             if (args[0] != null && args[0].matches("^(\\d)+$")){
@@ -178,7 +178,7 @@ public class GeneralCommandHandler implements CommandExecutor {
             e.printStackTrace();
         }
         if (perm == null)
-            perm = "expeditMod";
+            perm = "ExpeditMod";
 
         if (hasPerm(user, guild, perm)){
             RequestBufferHelper.RequestBufferDelete(channel, true);
