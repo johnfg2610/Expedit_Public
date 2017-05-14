@@ -59,7 +59,7 @@ public class GeneralCommandHandler implements CommandExecutor {
         user.getOrCreatePMChannel().sendMessage("", returnObject, false);
     }
 
-    @Command(aliases = {"ban"}, description = "bans all tagged players", usage = "ban @playername")
+    @Command(aliases = {"ban"}, description = "Bans all tagged players", usage = "ban @playername")
     public String onCommandBan(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         if (hasPerm(user, guild, "ExpeditMod")){
             List<IUser> users = message.getMentions();
@@ -72,7 +72,7 @@ public class GeneralCommandHandler implements CommandExecutor {
         }
     }
 
-    @Command(aliases = {"kick"}, description = "kicks all tagged players", usage = "kick @playername")
+    @Command(aliases = {"kick"}, description = "Kicks all tagged players", usage = "kick @playername")
     public String onCommandKick(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         String perm = null;
         try {
@@ -94,7 +94,7 @@ public class GeneralCommandHandler implements CommandExecutor {
         }
     }
 
-    @Command(aliases = {"pardon"}, description = "unbans a user", usage = "pardon @playername")
+    @Command(aliases = {"pardon"}, description = "Unbans a user", usage = "pardon @playername")
     public void onCommandPardon(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         String perm = null;
         try {
@@ -146,7 +146,7 @@ public class GeneralCommandHandler implements CommandExecutor {
         }
     }
 
-    @Command(aliases = {"clear", "purge"}, description = "removes a # of messages", usage = "clear #")
+    @Command(aliases = {"clear", "purge"}, description = "Removes specified # of messages", usage = "clear #")
     public void onCommandPurge(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         String perm = null;
         try {
@@ -169,7 +169,7 @@ public class GeneralCommandHandler implements CommandExecutor {
         }
     }
 
-    @Command(aliases = {"nuke"}, description = "removes all messages in a channel")
+    @Command(aliases = {"nuke"}, description = "Removes all messages in a channel")
     public void onCommandNuke(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         String perm = null;
         try {
