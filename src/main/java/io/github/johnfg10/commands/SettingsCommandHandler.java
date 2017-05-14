@@ -23,7 +23,7 @@ public class SettingsCommandHandler implements de.btobastian.sdcf4j.CommandExecu
         try {
             String perm;
             if (ExpeditConst.databaseUtils.getSetting("modrole", guild.getID()) == null){
-                perm = "expeditMod";
+                perm = "ExpeditMod";
             }else {
                 perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getID());
             }
