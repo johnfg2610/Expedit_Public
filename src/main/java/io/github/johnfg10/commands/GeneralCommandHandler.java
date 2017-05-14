@@ -94,7 +94,7 @@ public class GeneralCommandHandler implements CommandExecutor {
         }
     }
 
-    @Command(aliases = {"pardon"}, description = "kicks all tagged players", usage = "kick @playername")
+    @Command(aliases = {"pardon"}, description = "unbans a user", usage = "pardon @playername")
     public void onCommandPardon(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         String perm = null;
         try {
@@ -120,7 +120,7 @@ public class GeneralCommandHandler implements CommandExecutor {
         }
     }
 
-    @Command(aliases = {"bannedusers"}, description = "kicks all tagged players", usage = "kick @playername")
+    @Command(aliases = {"bannedusers"}, description = "Lists all banned users")
     public void onCommandBannedUsers(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         String perm = null;
         try {
@@ -146,7 +146,7 @@ public class GeneralCommandHandler implements CommandExecutor {
         }
     }
 
-    @Command(aliases = {"clear", "purge"})
+    @Command(aliases = {"clear", "purge"}, description = "removes a # of messages", usage = "clear #")
     public void onCommandPurge(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         String perm = null;
         try {
@@ -169,7 +169,7 @@ public class GeneralCommandHandler implements CommandExecutor {
         }
     }
 
-    @Command(aliases = {"nuke"})
+    @Command(aliases = {"nuke"}, description = "removes all messages in a channel")
     public void onCommandNuke(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         String perm = null;
         try {
