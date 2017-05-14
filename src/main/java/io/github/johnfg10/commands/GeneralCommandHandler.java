@@ -17,6 +17,7 @@ import sx.blah.discord.util.RateLimitException;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Random;
 
 import static io.github.johnfg10.utils.MessageUtil.hasPerm;
 
@@ -24,7 +25,6 @@ import static io.github.johnfg10.utils.MessageUtil.hasPerm;
  * Created by johnfg10 on 16/03/2017.
  */
 public class GeneralCommandHandler implements CommandExecutor {
-
     @Command(aliases = {"help", "halp", "welp"}, description = "Help", async = true)
     public void onCommandHelp(IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         EmbedBuilder embedBuilder = new EmbedBuilder();
@@ -146,7 +146,7 @@ public class GeneralCommandHandler implements CommandExecutor {
         }
     }
 
-    @Command(aliases = {"clear", "purge"})
+    @Command(aliases = {"clear", "purge", "clean"})
     public void onCommandPurge(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         String perm = null;
         try {
@@ -185,6 +185,15 @@ public class GeneralCommandHandler implements CommandExecutor {
         }else{
             channel.sendMessage("You do not have permission for that command");
         }
+    }
+
+    @Command(aliases = {"hey", "hi", "hello", "heya"})
+    public void onCommandHello(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
+        String[] helloMessages = {"hi", "hey there", "hey", "hello", ":wave:", "heya"};
+        Random rnd = new Random();
+        int randomNumber = rnd.nextInt(helloMessages.length);
+        channel.sendMessage(helloMessages[randomNumber]);
+
     }
 
 }

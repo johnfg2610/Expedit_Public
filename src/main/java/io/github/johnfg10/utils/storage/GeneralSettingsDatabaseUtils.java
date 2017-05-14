@@ -33,9 +33,24 @@ public class GeneralSettingsDatabaseUtils {
                             "defaultprefix varchar(255) DEFAULT '^'," +
                             "modrole varchar(255)  DEFAULT 'expeditMod'," +
                             "musicText varchar(255)," +
-                            "musicVoice varchar(255) DEFAULT 'MusicChannel'" +
+                            "musicVoice varchar(255) DEFAULT 'MusicChannel'," +
+                            "enablelog boolean DEFAULT TRUE" +
                             ")"
             );
+            excuteSql(
+                    "CREATE TABLE IF NOT EXISTS " +
+                            schema +
+                            ".logs (" +
+                            "id INT NOT NULL AUTO_INCREMENT," +
+                            "PRIMARY KEY(id)," +
+                            "UNIQUE (ID)," +
+                            "guildid varchar(255) NOT NULL," +
+                            "time datetime NOT NULL," +
+                            "logevent varchar(255) NOT NULL," +
+                            "message varchar(255) NOT NULL" +
+                            ")"
+            );
+
         } catch (SQLException | InstantiationException | ClassNotFoundException | IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -47,6 +62,7 @@ public class GeneralSettingsDatabaseUtils {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         Connection conn = DriverManager.getConnection
                     (String.format("jdbc:mysql://%1s:%2s/%3s?serverTimezone=GMT&useSSL=false", hostname, String.valueOf(port), schema), username, password);
+
 
             Statement stmt = conn.createStatement();
             successful = stmt.execute(sql);
@@ -67,6 +83,31 @@ public class GeneralSettingsDatabaseUtils {
                 "SELECT %1s FROM " +
                 getSchema() +
                 ".generalsettings WHERE guildid = '%2s';", setting, guildid));
+        while (resultSet.next()){
+            returnValue = resultSet.getString(setting);
+        }
+        stmt.close();
+        conn.close();
+        resultSet.close();
+        if (returnValue == null)
+            return "nothing";
+        else
+            return returnValue;
+    }
+
+
+    public String getSetting(String db, String setting, String guildid) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
+        ResultSet resultSet = null;
+        String returnValue = "";
+        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        Connection conn = DriverManager.getConnection
+                (String.format("jdbc:mysql://%1s:%2s/%3s?serverTimezone=GMT&useSSL=false", hostname, String.valueOf(port), schema), username, password);
+
+        Statement stmt = conn.createStatement();
+        resultSet = stmt.executeQuery(String.format(
+                "SELECT %1s FROM " +
+                        getSchema() +
+                        ".%2s WHERE guildid = '%3s';", setting, db, guildid));
         while (resultSet.next()){
             returnValue = resultSet.getString(setting);
         }

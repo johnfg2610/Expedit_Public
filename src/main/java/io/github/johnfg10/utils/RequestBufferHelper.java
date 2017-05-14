@@ -53,7 +53,7 @@ public class RequestBufferHelper {
                     MessageList messages = channel.getMessages();
                     while (!messages.isEmpty()){
                         channel.getMessages().getLatestMessage().delete();
-                        messages.load(100);
+                        messages.load(1);
                     }
                 }
 
@@ -75,7 +75,7 @@ public class RequestBufferHelper {
                 MessageList messages = channel.getMessages();
                 for (int i = 0; i < amount; i++) {
                     messages.getLatestMessage().delete();
-                    messages.load(10);
+                    messages.load(1);
                 }
             } catch (MissingPermissionsException e) {
                 Discord4J.LOGGER.error("Missing permissions", e);

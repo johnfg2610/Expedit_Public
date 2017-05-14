@@ -46,11 +46,21 @@ public class DevelopmentCommandHandler implements CommandExecutor {
     }
 
     @Command(aliases = {"warnall"}, showInHelpPage = false)
-    public void onCommand(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
+    public void onCommandWarnAll(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         //my id
         if (user.getID().equals("200989665304641536")) {
             for (IGuild g : ExpeditConst.iDiscordClient.getGuilds()) {
                 RequestBufferHelper.RequestBuffer(g.getChannels().get(0), StringHelper.arrayToString(args));
+            }
+        }
+    }
+
+    @Command(aliases = {"msgowners"}, showInHelpPage = false)
+    public void onCommandOwners(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
+        //my id
+        if (user.getID().equals("200989665304641536")) {
+            for (IGuild g : ExpeditConst.iDiscordClient.getGuilds()) {
+                RequestBufferHelper.RequestBuffer(g.getOwner().getOrCreatePMChannel(), StringHelper.arrayToString(args));
             }
         }
     }
@@ -69,7 +79,7 @@ public class DevelopmentCommandHandler implements CommandExecutor {
     public void onCommandReportBug(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         if (ExpeditConst.githubBlackListedUsers.contains(user.getID())) {
             RequestBufferHelper.RequestBuffer(channel, "you have been blacklisted from using this command if you belive this is in error please contact johnfg10");
-        }else {
+        } else {
             try {
                 GitHub github = GitHub.connectUsingPassword(ExpeditConst.configSettings.getNode().getNode("token", "githublogin").getString(), ExpeditConst.configSettings.getNode().getNode("token", "githubpass").getString());
                 //System.out.println(github.createGist().description("test").file("test", "testing stuff").create().getUrl());
@@ -84,10 +94,11 @@ public class DevelopmentCommandHandler implements CommandExecutor {
                         user.getID()
                 ).assignee("johnfg10").create();
 
-                RequestBufferHelper.RequestBuffer(channel, "link: " + issue.getHtmlUrl() );
+                RequestBufferHelper.RequestBuffer(channel, "link: " + issue.getHtmlUrl());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
 }
