@@ -7,8 +7,6 @@ import io.github.johnfg10.utils.RequestBufferHelper;
 import io.github.johnfg10.utils.StringHelper;
 import org.kohsuke.github.GHIssue;
 import org.kohsuke.github.GitHub;
-import org.kohsuke.github.GitHubBuilder;
-import org.kohsuke.github.extras.OkHttpConnector;
 import sx.blah.discord.handle.obj.*;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.EmbedBuilder;
@@ -18,8 +16,6 @@ import sx.blah.discord.util.RateLimitException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-
-import static com.sun.corba.se.impl.util.RepositoryId.cache;
 
 /**
  * Created by johnfg10 on 17/04/2017.
