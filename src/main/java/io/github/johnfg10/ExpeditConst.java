@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by johnfg10 on 16/03/2017.
@@ -31,5 +32,7 @@ public class ExpeditConst {
     public static ConfigSettings configSettings;
 
     public static List<String> githubBlackListedUsers = Arrays.asList("");
+    //amount of minutes the bots been up
+    public static long uptime = 0l;
 
 }

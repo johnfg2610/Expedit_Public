@@ -16,6 +16,7 @@ import sx.blah.discord.util.DiscordException;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.Timer;
 
 /**
  * Created by johnfg10 on 16/03/2017.
@@ -23,7 +24,7 @@ import java.sql.Connection;
 public class Expedit {
 
     public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-                ConfigSettings configSettings = null;
+        ConfigSettings configSettings = null;
         Connection conn = null;
         try {
             configSettings = new ConfigSettings(System.getProperty("user.dir") + "/expeditconfig.hocon");
@@ -42,6 +43,9 @@ public class Expedit {
             return;
         }
         System.out.println(System.getProperty("user.dir") + "/expeditconfig.hocon");
+
+        Timer timer = new Timer("oneMinture");
+        timer.schedule(new onMinuteTimer(), 0, 60000);
 
         ExpeditConst.iDiscordClient = createClient(configSettings.getNode().getNode("token", "clienttoken").getString(), true);
         ExpeditConst.youtubeApi = configSettings.getNode().getNode("token", "youtubeapi").getString();
