@@ -133,7 +133,7 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
         }
     }
 
-    @Command(aliases = {"vol", "volume"}, description = "Adjusts the volume" )
+    @Command(aliases = {"volume", "vol"}, description = "Adjusts the volume" )
     public void onCommandVolume(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         musicChannels mc = this.musicHelper(channel, guild);
 
