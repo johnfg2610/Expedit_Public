@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
  * Created by johnfg10 on 28/03/2017.
  */
 public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor {
-    @Command(aliases = {"join", "joinme"})
+    @Command(aliases = {"join", "joinme"}, description = "Moves Expedit bot to your channel for music!")
     public void onCommandJoin(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         System.out.println("will do");
 
@@ -52,7 +52,7 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
         }
     }
 
-    @Command(aliases = {"leave", "leaveme"})
+    @Command(aliases = {"leave", "leaveme"}, description = "Tells Expedit bot to leave you alone")
     public void onCommandLeave(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         musicChannels mc = this.musicHelper(channel, guild);
 
@@ -65,7 +65,7 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
         }
     }
 
-    @Command(aliases = {"addqueue", "queue", "play"})
+    @Command(aliases = {"addqueue", "queue", "play"}, description = "Adds a song to the playlist")
     public void onCommandQueue(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         musicChannels mc = this.musicHelper(channel, guild);
 
@@ -81,7 +81,7 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
         }
     }
 
-    @Command(aliases = {"skip", "jump"})
+    @Command(aliases = {"skip", "jump"}, description = "Skips the song")
     public void onCommandSkip(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         musicChannels mc = this.musicHelper(channel, guild);
 
@@ -97,7 +97,7 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
         }
     }
 
-    @Command(aliases = {"searchplay", "yt", "ytt"})
+    @Command(aliases = {"searchplay", "yt", "ytt"}, description = "Look for a song on Youtube")
     public void onCommandSearchPlay(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException, IOException, UnirestException {
         musicChannels mc = this.musicHelper(channel, guild);
 
@@ -133,7 +133,7 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
         }
     }
 
-    @Command(aliases = {"vol", "volume"})
+    @Command(aliases = {"vol", "volume"}, description = "Adjusts the volume" )
     public void onCommandVolume(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         musicChannels mc = this.musicHelper(channel, guild);
 
@@ -150,7 +150,7 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
         }
     }
 
-    @Command(aliases = {"pause", "wait"})
+    @Command(aliases = {"pause", "wait"}, description = "Stops the song")
     public void onCommandPause(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         musicChannels mc = this.musicHelper(channel, guild);
 
@@ -166,7 +166,7 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
         }
     }
 
-    @Command(aliases = {"info", "trackinfo"})
+    @Command(aliases = {"info", "trackinfo"}, description = "List whats currently playing")
     public void onCommandInfo(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         musicChannels mc = this.musicHelper(channel, guild);
 
@@ -190,7 +190,7 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
         }
     }
 
-    @Command(aliases = {"stop"})
+    @Command(aliases = {"stop"}, description = "Ends a song")
     public void onCommandStop(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         musicChannels mc = this.musicHelper(channel, guild);
 
@@ -207,7 +207,7 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
     }
 
 
-    @Command(aliases = {"ytplaylist", "ytpl", "pl"})
+    @Command(aliases = {"ytplaylist", "ytpl", "pl"}, description = "Sets the bots playlist")
     public void onCommandPlaylist(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException, UnirestException {
         musicChannels mc = this.musicHelper(channel, guild);
 
@@ -243,7 +243,7 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
         }
     }
 
-    @Command(aliases = {"playlistinfo", "plinfo"})
+    @Command(aliases = {"playlistinfo", "plinfo"}, description = "Lists the playlist")
     public void onCommandPlaylistInfo(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException, UnirestException {
         musicChannels mc = this.musicHelper(channel, guild);
 
