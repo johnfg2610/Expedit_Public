@@ -188,7 +188,7 @@ public class GeneralCommandHandler implements CommandExecutor {
         }
     }
 
-    @Command(aliases = {"hey", "hi", "hello", "heya"})
+    @Command(aliases = {"hey", "hi", "hello", "heya"}, description = "Starts a conversation with a bot")
     public void onCommandHello(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         String[] helloMessages = {"hi", "hey there", "hey", "hello", ":wave:", "heya"};
         Random rnd = new Random();
