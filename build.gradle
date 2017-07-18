@@ -7,14 +7,15 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    jcenter()
+    maven {
+        url "https://jcenter.bintray.com"
+    }
     maven {
         url  "https://jitpack.io"
     }
     maven {
         url  "http://repo.bastian-oppermann.de"
     }
-    jcenter()
 }
 
 configurations {
@@ -23,15 +24,15 @@ configurations {
 }
 
 dependencies {
-    required "com.github.austinv11:Discord4j:2.7.0"
-    required "de.btobastian.sdcf4j:sdcf4j-core:1.0.4"
-    required "de.btobastian.sdcf4j:sdcf4j-discord4j:1.0.4"
+    required "com.github.austinv11:Discord4j:2.8.4"
+    required "de.btobastian.sdcf4j:sdcf4j-core:1.0.5"
+    required "de.btobastian.sdcf4j:sdcf4j-discord4j:1.0.5"
     required "ninja.leaping.configurate:configurate-hocon:3.1"
     required group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.2'
     required "com.mashape.unirest:unirest-java:1.4.9"
-    required "com.sedmelluq:lavaplayer:1.2.34"
+    required "com.sedmelluq:lavaplayer:1.2.42"
     required group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
-    required 'org.kohsuke:github-api:1.85'
+    required 'org.kohsuke:github-api:1.86'
     required fileTree(dir: 'libs', include: '*.jar')
     configurations.compile.extendsFrom(configurations.required)
 }
