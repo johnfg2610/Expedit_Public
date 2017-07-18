@@ -27,7 +27,7 @@ public class Expedit {
         ConfigSettings configSettings = null;
         Connection conn = null;
         try {
-            configSettings = new ConfigSettings(System.getProperty("user.dir") + "/expeditconfig.hocon");
+            configSettings = new ConfigSettings("./expeditconfig.hocon");
         } catch (IOException e) {
             e.printStackTrace();
         }
