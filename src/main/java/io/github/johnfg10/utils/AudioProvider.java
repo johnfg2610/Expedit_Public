@@ -2,6 +2,7 @@ package io.github.johnfg10.utils;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
+import sx.blah.discord.handle.audio.AudioEncodingType;
 import sx.blah.discord.handle.audio.IAudioProvider;
 
 /**
@@ -45,6 +46,8 @@ public class AudioProvider implements IAudioProvider {
   public int getChannels() {
     return 2;
   }
+
+
 
   @Override
   public AudioEncodingType getAudioEncodingType() {
