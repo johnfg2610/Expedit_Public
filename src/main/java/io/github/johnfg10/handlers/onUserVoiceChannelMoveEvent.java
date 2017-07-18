@@ -26,7 +26,7 @@ public class onUserVoiceChannelMoveEvent implements IListener<UserVoiceChannelMo
                     }
                 }
             }else if(event.getOldChannel().getName().matches(ExpeditConst.databaseUtils.getSetting("musicVoice", event.getOldChannel().getGuild().getID()))){
-                if (event.getOldChannel().getGuild().getVoiceChannelByID(event.getOldChannel().getID()).getConnectedUsers().size() <=  2){
+                if (event.getOldChannel().getGuild().getVoiceChannelByID(event.getOldChannel().getID()).getConnectedUsers().size() <=  1){
                     ExpeditConst.audioHelper.getGuildAudioPlayer(event.getOldChannel().getGuild()).player.setPaused(true);
                     event.getOldChannel().leave();
                 }
