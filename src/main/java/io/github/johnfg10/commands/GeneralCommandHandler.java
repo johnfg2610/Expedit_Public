@@ -56,6 +56,9 @@ public class GeneralCommandHandler implements CommandExecutor {
 
             }
         }
+        embedBuilder.appendField("^setsettings modrole rolename", "sets the mod role name expedit should look for", false);
+        embedBuilder.appendField("^setsettings modrole musicvoice", "sets the music voice channel the only channel music can be played in", false);
+        embedBuilder.appendField("^setsettings modrole musictext", "sets the music text channel the only channel much can be played in", false);
         EmbedObject returnObject = embedBuilder.build();
         user.getOrCreatePMChannel().sendMessage("", returnObject, false);
     }
@@ -207,6 +210,6 @@ public class GeneralCommandHandler implements CommandExecutor {
     public void onCommandUptime(IMessage message, IChannel iChannel, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         long jvmUptime = ManagementFactory.getRuntimeMXBean().getUptime();
         long jvmUptimeSeconds = jvmUptime*1000;
-        iChannel.sendMessage(String.valueOf(jvmUptimeSeconds));
+        iChannel.sendMessage(String.valueOf(jvmUptimeSeconds) + "MS");
     }
 }
