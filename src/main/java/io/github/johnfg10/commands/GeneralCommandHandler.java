@@ -210,6 +210,6 @@ public class GeneralCommandHandler implements CommandExecutor {
     public void onCommandUptime(IMessage message, IChannel iChannel, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         long jvmUptime = ManagementFactory.getRuntimeMXBean().getUptime();
         long jvmUptimeSeconds = jvmUptime*1000;
-        iChannel.sendMessage(String.valueOf(jvmUptimeSeconds) + "MS");
+        iChannel.sendMessage(String.valueOf(jvmUptimeSeconds) + " MS");
     }
 }
