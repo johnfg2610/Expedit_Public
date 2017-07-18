@@ -30,7 +30,7 @@ dependencies {
     required "ninja.leaping.configurate:configurate-hocon:3.1"
     required group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.2'
     required "com.mashape.unirest:unirest-java:1.4.9"
-    required "com.sedmelluq:lavaplayer:1.2.39"
+    required "com.sedmelluq:lavaplayer:1.2.42"
     required group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
     required 'org.kohsuke:github-api:1.86'
     required fileTree(dir: 'libs', include: '*.jar')
