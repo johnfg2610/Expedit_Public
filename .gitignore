@@ -86,3 +86,5 @@ hs_err_pid*
 expeditconfig\.hocon
 
 .idea/*
+
+update.sh
