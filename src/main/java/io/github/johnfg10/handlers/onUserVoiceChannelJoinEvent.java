@@ -3,7 +3,7 @@ package io.github.johnfg10.handlers;
 import io.github.johnfg10.Expedit;
 import io.github.johnfg10.ExpeditConst;
 import sx.blah.discord.api.events.IListener;
-import sx.blah.discord.handle.impl.events.UserVoiceChannelJoinEvent;
+import sx.blah.discord.handle.impl.events.guild.voice.user.UserVoiceChannelJoinEvent;
 import sx.blah.discord.util.MissingPermissionsException;
 
 import java.sql.SQLException;
@@ -16,10 +16,10 @@ public class onUserVoiceChannelJoinEvent implements IListener<UserVoiceChannelJo
     @Override
     public void handle(UserVoiceChannelJoinEvent event) {
         try {
-            if (event.getChannel().getName().matches(ExpeditConst.databaseUtils.getSetting("musicVoice", event.getChannel().getGuild().getID()))){
+            if (event.getVoiceChannel().getName().matches(ExpeditConst.databaseUtils.getSetting("musicVoice", event.getVoiceChannel().getGuild().getID()))){
                 try {
-                    event.getChannel().join();
-                    ExpeditConst.audioHelper.getGuildAudioPlayer(event.getChannel().getGuild()).player.setPaused(false);
+                    event.getVoiceChannel().join();
+                    ExpeditConst.audioHelper.getGuildAudioPlayer(event.getVoiceChannel().getGuild()).player.setPaused(false);
                 } catch (MissingPermissionsException e) {
                     e.printStackTrace();
                 }

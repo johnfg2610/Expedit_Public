@@ -43,7 +43,7 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
         String musicVoice = mc.getMusicVoice();
         System.out.println(musicText);
         if (message.getChannel() == guild.getChannelsByName(musicText).get(0) || !mc.isShouldUseText()){
-            if (user.getConnectedVoiceChannels() == null || user.getConnectedVoiceChannels().size() <= 0) {
+            if (user.getVoiceStatesLong() == null || user.getVoiceStatesLong().size() <= 0) {
                 RequestBufferHelper.RequestBuffer(channel, "You are not in a voice channel!");
             } else {
                 ExpeditConst.audioHelper.getGuildAudioPlayer(guild).player.setPaused(false);
