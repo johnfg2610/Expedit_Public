@@ -45,7 +45,7 @@ public class Expedit {
         System.out.println(System.getProperty("user.dir") + "/expeditconfig.hocon");
 
         Timer timer = new Timer("oneMinture");
-        timer.schedule(new onMinuteTimer(), 0, 60000);
+        timer.schedule(new onMinuteTimer(), 1, 60000);
 
         ExpeditConst.iDiscordClient = createClient(configSettings.getNode().getNode("token", "clienttoken").getString(), true);
         ExpeditConst.youtubeApi = configSettings.getNode().getNode("token", "youtubeapi").getString();

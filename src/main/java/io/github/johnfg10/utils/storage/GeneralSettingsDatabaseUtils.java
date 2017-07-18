@@ -43,11 +43,21 @@ public class GeneralSettingsDatabaseUtils {
                             ".logs (" +
                             "id INT NOT NULL AUTO_INCREMENT," +
                             "PRIMARY KEY(id)," +
-                            "UNIQUE (ID)," +
+                            "UNIQUE (id)," +
                             "guildid varchar(255) NOT NULL," +
                             "time datetime NOT NULL," +
                             "logevent varchar(255) NOT NULL," +
                             "message varchar(255) NOT NULL" +
+                            ")"
+            );
+            excuteSql(
+                    "CREATE TABLE IF NOT EXISTS " +
+                            schema +
+                            ".warnings (" +
+                            "id INT NOT NULL AUTO_INCREMENT,"+
+                            "PRIMARY KEY(id)" +
+                            "UNIQUE(id)," +
+                            "warning varchar(255) NOT NULL"+
                             ")"
             );
 
