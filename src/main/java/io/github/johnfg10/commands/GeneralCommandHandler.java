@@ -65,8 +65,14 @@ public class GeneralCommandHandler implements CommandExecutor {
         if (hasPerm(user, guild, "ExpeditMod")){
             List<IUser> users = message.getMentions();
             for (IUser user1:users) {
-                guild.banUser(user1);
+                String reason = args[0];
+                if (!reason.isEmpty())
+                    guild.banUser(user1, reason);
+                else
+                    guild.banUser(user1);
+                channel.sendMessage("User: " + user1.getName() + " banned");
             }
+
             return "Users banned";
         }else{
             return "You do not have permission for that command";
