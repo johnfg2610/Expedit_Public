@@ -7,14 +7,15 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    jcenter()
+    maven {
+        url "https://jcenter.bintray.com"
+    }
     maven {
         url  "https://jitpack.io"
     }
     maven {
         url  "http://repo.bastian-oppermann.de"
     }
-    jcenter()
 }
 
 configurations {
