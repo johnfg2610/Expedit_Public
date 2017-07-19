@@ -53,7 +53,7 @@ public class SpotifyCommandHandlers implements CommandExecutor {
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
         }
-
+        return "Song was not added";
     }
 
     @Command(aliases = {"spartist"}, description = "Lists the playlist")
