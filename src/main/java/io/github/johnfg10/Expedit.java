@@ -75,7 +75,6 @@ public class Expedit {
     public static IDiscordClient createClient(String token, boolean login) { // Returns a new instance of the Discord client
         ClientBuilder clientBuilder = new ClientBuilder(); // Creates the ClientBuilder instance
         clientBuilder.withToken(token); // Adds the login info to the builder
-
         try {
             if (login) {
                 return clientBuilder.login(); // Creates the client instance and logs the client in

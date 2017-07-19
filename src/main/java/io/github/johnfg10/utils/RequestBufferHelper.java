@@ -48,31 +48,24 @@ public class RequestBufferHelper {
 
     public static void RequestBufferDelete(IChannel channel, boolean all){
         if (all){
-            MessageHistory messages = channel.getFullMessageHistory();
-            RequestBuffer.request(() -> {
-                try {
-                    messages.bulkDelete();
-                } catch (MissingPermissionsException e) {
-                    Discord4J.LOGGER.error("Missing permissions", e);
-                } catch (DiscordException e) {}
-            });
+            while (!channel.getMessageHistory().isEmpty()){
+                MessageHistory messages = channel.getMessageHistory(1000);
+                RequestBuffer.request(() -> {
+                    try {
+                        messages.bulkDelete();
+                    } catch (MissingPermissionsException e) {
+                        Discord4J.LOGGER.error("Missing permissions", e);
+                    } catch (DiscordException e) {}
+                });
+            }
         }
     }
 
     public static void RequestBufferDelete(IChannel channel, int amount){
         RequestBuffer.request(() -> {
             try {
-/*                MessageList messages = channel.getMessages();
-                messages.load(amount);
-                for (int i = amount; i == 0; i--) {
-                    messages.get(amount).delete();
-                }*/
-
-                MessageHistory messages = channel.getFullMessageHistory();
-
-                for (int i = 0; i < amount; i++) {
-                    messages.getLatestMessage().delete();
-                }
+                MessageHistory messages = channel.getMessageHistory(amount);
+                messages.bulkDelete();
             } catch (MissingPermissionsException e) {
                 Discord4J.LOGGER.error("Missing permissions", e);
             } catch (DiscordException e) {}
