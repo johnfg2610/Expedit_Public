@@ -63,7 +63,12 @@ public class DevelopmentCommandHandler implements CommandExecutor {
         }
     }
 
-    @Command(aliases = {"warnall"}, showInHelpPage = false)
+    @Command(aliases = {"rungc"}, showInHelpPage = false)
+    public void onCommandRunGC(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
+        Runtime.getRuntime().gc();
+    }
+
+        @Command(aliases = {"warnall"}, showInHelpPage = false)
     public void onCommandWarnAll(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         //my id
         if (user.getLongID() == 200989665304641536L) {
