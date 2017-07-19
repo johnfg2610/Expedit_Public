@@ -2,10 +2,7 @@ package io.github.johnfg10;
 
 import com.wrapper.spotify.Api;
 import de.btobastian.sdcf4j.handler.Discord4JHandler;
-import io.github.johnfg10.commands.AudioCommandHandler;
-import io.github.johnfg10.commands.DevelopmentCommandHandler;
-import io.github.johnfg10.commands.GeneralCommandHandler;
-import io.github.johnfg10.commands.SettingsCommandHandler;
+import io.github.johnfg10.commands.*;
 import io.github.johnfg10.handlers.*;
 import io.github.johnfg10.utils.AudioHelper;
 import io.github.johnfg10.utils.storage.ConfigSettings;
@@ -62,6 +59,8 @@ public class Expedit {
         ExpeditConst.commandHandler.registerCommand(new AudioCommandHandler());
         ExpeditConst.commandHandler.registerCommand(new SettingsCommandHandler());
         ExpeditConst.commandHandler.registerCommand(new DevelopmentCommandHandler());
+        ExpeditConst.commandHandler.registerCommand(new SpotifyCommandHandlers());
+        ExpeditConst.commandHandler.registerCommand(new BannedWordCommandHandler());
 
         EventDispatcher eventDispatcher = ExpeditConst.iDiscordClient.getDispatcher();
 

@@ -1,6 +1,7 @@
 package io.github.johnfg10.commands;
 
 import de.btobastian.sdcf4j.Command;
+import de.btobastian.sdcf4j.CommandExecutor;
 import io.github.johnfg10.ExpeditConst;
 import io.github.johnfg10.utils.RequestBufferHelper;
 import org.json.JSONArray;
@@ -16,7 +17,7 @@ import java.sql.SQLException;
 
 import static io.github.johnfg10.utils.MessageUtil.hasPerm;
 
-public class BannedWordCommandHandler {
+public class BannedWordCommandHandler implements CommandExecutor {
     @Command(aliases = {"addtofilter"}, description = "Removes all messages in a channel")
     public void onCommandAddToFilter(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         try {

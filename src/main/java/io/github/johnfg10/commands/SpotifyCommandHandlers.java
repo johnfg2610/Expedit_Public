@@ -4,6 +4,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.wrapper.spotify.exceptions.WebApiException;
 import de.btobastian.sdcf4j.Command;
+import de.btobastian.sdcf4j.CommandExecutor;
 import io.github.johnfg10.ExpeditConst;
 import io.github.johnfg10.utils.AudioHelper;
 import io.github.johnfg10.utils.GuildMusicManager;
@@ -24,7 +25,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.BlockingQueue;
 
-public class SpotifyCommandHandlers {
+public class SpotifyCommandHandlers implements CommandExecutor {
     @Command(aliases = {"sptrack"}, description = "Lists the playlist")
     public void onCommandSptrack(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException, UnirestException {
         String cleanMsg = message.getContent().replaceAll(command, "");
