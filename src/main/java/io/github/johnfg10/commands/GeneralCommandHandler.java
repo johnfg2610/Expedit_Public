@@ -86,7 +86,7 @@ public class GeneralCommandHandler implements CommandExecutor {
     public String onCommandKick(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         String perm = null;
         try {
-            perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getID());
+            perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getStringID());
         } catch (ClassNotFoundException | IllegalAccessException | SQLException | InstantiationException e) {
             e.printStackTrace();
         }
@@ -108,7 +108,7 @@ public class GeneralCommandHandler implements CommandExecutor {
     public void onCommandPardon(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         String perm = null;
         try {
-            perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getID());
+            perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getStringID());
         } catch (ClassNotFoundException | IllegalAccessException | SQLException | InstantiationException e) {
             e.printStackTrace();
         }
@@ -120,7 +120,7 @@ public class GeneralCommandHandler implements CommandExecutor {
             for (IUser bannedUser:guild.getBannedUsers()) {
                 for (String string:args) {
                     if(bannedUser.getName().equals(string)){
-                        guild.pardonUser(bannedUser.getID());
+                        guild.pardonUser(bannedUser.getLongID());
                     }
                 }
             }
@@ -134,7 +134,7 @@ public class GeneralCommandHandler implements CommandExecutor {
     public void onCommandBannedUsers(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         String perm = null;
         try {
-            perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getID());
+            perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getStringID());
         } catch (ClassNotFoundException | IllegalAccessException | SQLException | InstantiationException e) {
             e.printStackTrace();
         }
@@ -147,7 +147,7 @@ public class GeneralCommandHandler implements CommandExecutor {
             embedBuilder.withColor(255, 0, 0);
             List<IUser> bannedUsers = guild.getBannedUsers();
             for (IUser user1:bannedUsers) {
-                embedBuilder.appendField(user1.getName(), user1.getID(), true);
+                embedBuilder.appendField(user1.getName(), user1.getStringID(), true);
             }
             EmbedObject returnObject = embedBuilder.build();
             channel.sendMessage("", returnObject, false);
@@ -160,7 +160,7 @@ public class GeneralCommandHandler implements CommandExecutor {
     public void onCommandPurge(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         String perm = null;
         try {
-            perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getID());
+            perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getStringID());
         } catch (ClassNotFoundException | IllegalAccessException | SQLException | InstantiationException e) {
             e.printStackTrace();
         }
@@ -183,7 +183,7 @@ public class GeneralCommandHandler implements CommandExecutor {
     public void onCommandNuke(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         String perm = null;
         try {
-            perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getID());
+            perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getStringID());
         } catch (ClassNotFoundException | IllegalAccessException | SQLException | InstantiationException e) {
             e.printStackTrace();
         }

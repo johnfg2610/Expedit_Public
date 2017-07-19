@@ -33,6 +33,7 @@ dependencies {
     required "com.sedmelluq:lavaplayer:1.2.42"
     required group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
     required 'org.kohsuke:github-api:1.86'
+    required group: 'org.json', name: 'json', version: '20170516'
     required fileTree(dir: 'libs', include: '*.jar')
     configurations.compile.extendsFrom(configurations.required)
 }

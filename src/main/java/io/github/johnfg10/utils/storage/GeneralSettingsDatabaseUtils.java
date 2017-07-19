@@ -34,6 +34,7 @@ public class GeneralSettingsDatabaseUtils {
                             "modrole varchar(255)  DEFAULT 'expeditMod'," +
                             "musicText varchar(255)," +
                             "musicVoice varchar(255) DEFAULT 'MusicChannel'," +
+                            "bannedwords varchar(10000) DEFAULT '[]'" +
                             "enablelog boolean DEFAULT TRUE" +
                             ")"
             );
