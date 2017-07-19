@@ -65,7 +65,8 @@ public class DevelopmentCommandHandler implements CommandExecutor {
 
     @Command(aliases = {"rungc"}, showInHelpPage = false)
     public void onCommandRunGC(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        Runtime.getRuntime().gc();
+        System.gc();
+        channel.sendMessage("Requested that the JVM run a force FC");
     }
 
         @Command(aliases = {"warnall"}, showInHelpPage = false)
