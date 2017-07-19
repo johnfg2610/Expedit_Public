@@ -13,9 +13,11 @@ import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
 
+import java.awt.*;
 import java.lang.management.ManagementFactory;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.List;
 
 import static io.github.johnfg10.utils.MessageUtil.hasPerm;
 
@@ -54,12 +56,12 @@ public class GeneralCommandHandler implements CommandExecutor {
         embedFields.add(new EmbedObject.EmbedFieldObject("^setsettings musictext textchannel", "sets the music text channel the only channel much can be played in", false));
 
         IPrivateChannel iPrivateChannel = user.getOrCreatePMChannel();
-        EmbedBuilder embedBuilder = new EmbedBuilder();
+        EmbedBuilder embedBuilder = new EmbedBuilder().withColor(Color.GREEN).withTitle("Help").withDescription("Expedits command list");
         int embedAmount = 0;
         for (EmbedObject.EmbedFieldObject embedField : embedFields) {
             if (embedAmount == 25){
                 iPrivateChannel.sendMessage(embedBuilder.build());
-                embedBuilder = new EmbedBuilder();
+                embedBuilder = new EmbedBuilder().withColor(Color.GREEN).withTitle("Help").withDescription("Expedits command list");
                 embedAmount = 0;
             }
             embedBuilder.appendField(embedField.name, embedField.value, embedField.inline);
