@@ -1,5 +1,6 @@
 package io.github.johnfg10;
 
+import com.wrapper.spotify.Api;
 import de.btobastian.sdcf4j.handler.Discord4JHandler;
 import io.github.johnfg10.commands.AudioCommandHandler;
 import io.github.johnfg10.commands.DevelopmentCommandHandler;
@@ -42,9 +43,8 @@ public class Expedit {
             System.out.println("All tokens need to be filled in!");
             return;
         }
-        System.out.println(System.getProperty("user.dir") + "/expeditconfig.hocon");
 
-        Timer timer = new Timer("oneMinture");
+        Timer timer = new Timer("oneMin");
         timer.schedule(new onMinuteTimer(), 1, 60000);
 
         ExpeditConst.iDiscordClient = createClient(configSettings.getNode().getNode("token", "clienttoken").getString(), true);
@@ -53,6 +53,10 @@ public class Expedit {
         ExpeditConst.commandHandler = new Discord4JHandler(ExpeditConst.iDiscordClient);
         ExpeditConst.commandHandler.setDefaultPrefix("^");
         ExpeditConst.configSettings = configSettings;
+        ExpeditConst.SPOTIFYAPI = Api.builder()
+                .clientId(configSettings.getNode().getNode("token", "spotifyclientid").getString())
+                .clientSecret(configSettings.getNode().getNode("token", "spotifyclientsecret").getString())
+                .build();
 
         ExpeditConst.commandHandler.registerCommand(new GeneralCommandHandler());
         ExpeditConst.commandHandler.registerCommand(new AudioCommandHandler());

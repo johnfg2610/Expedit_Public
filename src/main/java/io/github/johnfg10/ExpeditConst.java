@@ -1,5 +1,6 @@
 package io.github.johnfg10;
 
+import com.wrapper.spotify.Api;
 import de.btobastian.sdcf4j.CommandHandler;
 import io.github.johnfg10.commands.GeneralCommandHandler;
 import io.github.johnfg10.utils.AudioHelper;
@@ -30,9 +31,7 @@ public class ExpeditConst {
     public static AudioHelper audioHelper;
     public static GeneralSettingsDatabaseUtils databaseUtils;
     public static ConfigSettings configSettings;
+    public static Api SPOTIFYAPI;
 
     public static List<String> githubBlackListedUsers = Arrays.asList("");
-    //amount of minutes the bots been up
-    public static long uptime = 0l;
-
 }
