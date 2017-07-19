@@ -70,6 +70,13 @@ public class Expedit {
         eventDispatcher.registerListener(new onUserVoiceChannelJoinEvent());
         eventDispatcher.registerListener(new onUserVoiceChannelLeaveEvent());
         eventDispatcher.registerListener(new onUserVoiceChannelMoveEvent());
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                System.out.println("Shutting down essential core processes");
+                ExpeditConst.iDiscordClient.logout();
+            }
+        });
     }
 
     public static IDiscordClient createClient(String token, boolean login) { // Returns a new instance of the Discord client
