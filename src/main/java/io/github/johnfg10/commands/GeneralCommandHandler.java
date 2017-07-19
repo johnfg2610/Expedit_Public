@@ -63,7 +63,7 @@ public class GeneralCommandHandler implements CommandExecutor {
         IPrivateChannel iPrivateChannel = user.getOrCreatePMChannel();
 
         commands.forEach((s, n) ->{
-        iPrivateChannel.sendMessage(s + "\n" + n);
+            RequestBufferHelper.RequestBuffer(iPrivateChannel, s + "\n" + n);
         });
 
         //user.getOrCreatePMChannel().sendMessage(commands.toString(), false);
