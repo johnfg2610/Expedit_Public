@@ -34,17 +34,25 @@ public class DevelopmentCommandHandler implements CommandExecutor {
     @Command(aliases = {"leaveall"}, showInHelpPage = false)
     public void onCommandLeaveAllConnectedVoiceChannels(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         //my id
-        if (user.getID().equals("200989665304641536")) {
+        if (user.getLongID() == 200989665304641536L) {
             for (IVoiceChannel iVoiceChannel : ExpeditConst.iDiscordClient.getVoiceChannels()) {
                 iVoiceChannel.leave();
             }
         }
     }
 
+    @Command(aliases = {"memstat"}, showInHelpPage = false)
+    public void onCommandMemStat(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
+        //my id
+        if (user.getLongID() == 200989665304641536L) {
+            channel.sendMessage(String.valueOf(Runtime.getRuntime().totalMemory()) + "bytes aka" + String.valueOf(Runtime.getRuntime().totalMemory() * 1000000) + "MB" );
+        }
+    }
+
     @Command(aliases = {"warnall"}, showInHelpPage = false)
     public void onCommandWarnAll(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         //my id
-        if (user.getID().equals("200989665304641536")) {
+        if (user.getLongID() == 200989665304641536L) {
             for (IGuild g : ExpeditConst.iDiscordClient.getGuilds()) {
                 RequestBufferHelper.RequestBuffer(g.getChannels().get(0), StringHelper.arrayToString(args));
             }
@@ -54,7 +62,7 @@ public class DevelopmentCommandHandler implements CommandExecutor {
     @Command(aliases = {"msgowners"}, showInHelpPage = false)
     public void onCommandOwners(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         //my id
-        if (user.getID().equals("200989665304641536")) {
+        if (user.getLongID() == 200989665304641536L) {
             for (IGuild g : ExpeditConst.iDiscordClient.getGuilds()) {
                 RequestBufferHelper.RequestBuffer(g.getOwner().getOrCreatePMChannel(), StringHelper.arrayToString(args));
             }
