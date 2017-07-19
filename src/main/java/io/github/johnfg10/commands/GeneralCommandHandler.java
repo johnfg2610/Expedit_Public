@@ -50,8 +50,8 @@ public class GeneralCommandHandler implements CommandExecutor {
             }
         }
         embedFields.add(new EmbedObject.EmbedFieldObject("^setsettings modrole rolename", "sets the mod role name expedit should look for", false));
-        embedFields.add(new EmbedObject.EmbedFieldObject("^setsettings modrole musicvoice", "sets the music voice channel the only channel music can be played in", false));
-        embedFields.add(new EmbedObject.EmbedFieldObject("^setsettings modrole musictext", "sets the music text channel the only channel much can be played in", false));
+        embedFields.add(new EmbedObject.EmbedFieldObject("^setsettings musicvoice voicechannel", "sets the music voice channel the only channel music can be played in", false));
+        embedFields.add(new EmbedObject.EmbedFieldObject("^setsettings musictext textchannel", "sets the music text channel the only channel much can be played in", false));
 
         IPrivateChannel iPrivateChannel = user.getOrCreatePMChannel();
         EmbedBuilder embedBuilder = new EmbedBuilder();
