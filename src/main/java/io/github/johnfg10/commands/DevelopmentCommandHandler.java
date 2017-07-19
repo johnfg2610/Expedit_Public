@@ -45,7 +45,7 @@ public class DevelopmentCommandHandler implements CommandExecutor {
     public void onCommandMemStat(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         //my id
         if (user.getLongID() == 200989665304641536L) {
-            channel.sendMessage(String.valueOf(Runtime.getRuntime().totalMemory()) + "bytes aka" + String.valueOf(Runtime.getRuntime().totalMemory() * 1000000) + "MB" );
+            channel.sendMessage(String.valueOf(Runtime.getRuntime().totalMemory()) + " bytes aka " + String.valueOf(Runtime.getRuntime().totalMemory() / 1000000) + "MB" );
         }
     }
 
