@@ -36,21 +36,19 @@ public class SpotifyCommandHandlers implements CommandExecutor {
         String cleanMsg = message.getContent().replaceAll(command, "");
         try {
             TrackSearchRequest trackSearchRequest = ExpeditConst.SPOTIFYAPI.searchTracks(cleanMsg).limit(1).build();
-            SettableFuture<Page<Track>> pageSettableFuture =  trackSearchRequest.getAsync();
-            Page<Track> trackPage = new Page<>();
-            if (pageSettableFuture.set(trackPage)){
-                AudioPlayer audioPlayer = AudioUtils.getAudioPlayer(guild);
-                String uri = trackPage.getItems().get(0).getUri();
-                System.out.println(uri);
-                audioPlayer.queue(new URL(uri));
-                return "Song added to queue";
-            }else{
-                return "Song was not added";
-            }
+            Page<Track> trackPage =  trackSearchRequest.get();
+            AudioPlayer audioPlayer = AudioUtils.getAudioPlayer(guild);
+            String uri = trackPage.getItems().get(0).getUri();
+            System.out.println(uri);
+            audioPlayer.queue(new URL(uri));
+            return "Song added to queue";
+
 
         } catch (IOException e) {
             e.printStackTrace();
         } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (WebApiException e) {
             e.printStackTrace();
         }
         return "Song was not added";
