@@ -1,8 +1,12 @@
 package io.github.johnfg10.commands;
 
+import com.google.common.util.concurrent.SettableFuture;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.wrapper.spotify.exceptions.WebApiException;
+import com.wrapper.spotify.methods.TrackSearchRequest;
+import com.wrapper.spotify.models.Page;
+import com.wrapper.spotify.models.Track;
 import de.btobastian.sdcf4j.Command;
 import de.btobastian.sdcf4j.CommandExecutor;
 import io.github.johnfg10.ExpeditConst;
@@ -23,19 +27,28 @@ import sx.blah.discord.util.audio.AudioPlayer;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 
 public class SpotifyCommandHandlers implements CommandExecutor {
     @Command(aliases = {"sptrack"}, description = "Lists the playlist")
-    public void onCommandSptrack(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException, UnirestException {
+    public String onCommandSptrack(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException, UnirestException {
         String cleanMsg = message.getContent().replaceAll(command, "");
         try {
-            String uri = ExpeditConst.SPOTIFYAPI.searchTracks(cleanMsg).build().get().getItems().get(1).getUri();
-            AudioPlayer audioPlayer = AudioUtils.getAudioPlayer(guild);
-            audioPlayer.queue(new URL(uri));
+            TrackSearchRequest trackSearchRequest = ExpeditConst.SPOTIFYAPI.searchTracks(cleanMsg).limit(1).build();
+            SettableFuture<Page<Track>> pageSettableFuture =  trackSearchRequest.getAsync();
+            Page<Track> trackPage = new Page<>();
+            if (pageSettableFuture.set(trackPage)){
+                AudioPlayer audioPlayer = AudioUtils.getAudioPlayer(guild);
+                String uri = trackPage.getItems().get(0).getUri();
+                System.out.println(uri);
+                audioPlayer.queue(new URL(uri));
+                return "Song added to queue";
+            }else{
+                return "Song was not added";
+            }
+
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (WebApiException e) {
             e.printStackTrace();
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
