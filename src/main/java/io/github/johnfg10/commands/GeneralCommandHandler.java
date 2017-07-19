@@ -19,6 +19,7 @@ import java.lang.management.ManagementFactory;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
+import java.util.TreeMap;
 
 import static io.github.johnfg10.utils.MessageUtil.hasPerm;
 
@@ -28,11 +29,12 @@ import static io.github.johnfg10.utils.MessageUtil.hasPerm;
 public class GeneralCommandHandler implements CommandExecutor {
     @Command(aliases = {"help", "halp", "welp"}, description = "Help", async = true)
     public void onCommandHelp(IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.withTitle("Help!");
-        embedBuilder.withColor(38, 112, 4);
-        List<CommandHandler.SimpleCommand> simpleCommands = ExpeditConst.commandHandler.getCommands();
+        TreeMap<String, String> commands = new TreeMap<>();
 
+        //EmbedBuilder embedBuilder = new EmbedBuilder();
+        //embedBuilder.withTitle("Help!");
+        //embedBuilder.withColor(38, 112, 4);
+        List<CommandHandler.SimpleCommand> simpleCommands = ExpeditConst.commandHandler.getCommands();
         for (CommandHandler.SimpleCommand simpleCommand:simpleCommands) {
             if(simpleCommand.getCommandAnnotation().showInHelpPage() == true){
                 String alias = null;
@@ -52,15 +54,16 @@ public class GeneralCommandHandler implements CommandExecutor {
                         simpleCommand.getCommandAnnotation().usage(),
                         simpleCommand.getCommandAnnotation().requiredPermissions()
                 );
-                embedBuilder.appendField(simpleCommand.getCommandAnnotation().aliases()[0], formatedString, false);
+                commands.put(simpleCommand.getCommandAnnotation().aliases()[0], formatedString);
 
             }
         }
-        embedBuilder.appendField("^setsettings modrole rolename", "sets the mod role name expedit should look for", false);
-        embedBuilder.appendField("^setsettings modrole musicvoice", "sets the music voice channel the only channel music can be played in", false);
-        embedBuilder.appendField("^setsettings modrole musictext", "sets the music text channel the only channel much can be played in", false);
-        EmbedObject returnObject = embedBuilder.setLenient(true).build();
-        user.getOrCreatePMChannel().sendMessage("", returnObject, false);
+        commands.put("^setsettings modrole rolename", "sets the mod role name expedit should look for");
+        commands.put("^setsettings modrole musicvoice", "sets the music voice channel the only channel music can be played in");
+        commands.put("^setsettings modrole musictext", "sets the music text channel the only channel much can be played in");
+
+
+        user.getOrCreatePMChannel().sendMessage(commands.toString(), false);
     }
 
     @Command(aliases = {"ban"}, description = "Bans all tagged players", usage = "ban @playername")
