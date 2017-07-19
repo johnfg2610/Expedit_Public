@@ -6,10 +6,7 @@ import de.btobastian.sdcf4j.CommandHandler;
 import io.github.johnfg10.ExpeditConst;
 import io.github.johnfg10.utils.RequestBufferHelper;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
-import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.handle.obj.IUser;
+import sx.blah.discord.handle.obj.*;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.MissingPermissionsException;
@@ -18,6 +15,7 @@ import sx.blah.discord.util.RateLimitException;
 import java.lang.management.ManagementFactory;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
@@ -62,8 +60,13 @@ public class GeneralCommandHandler implements CommandExecutor {
         commands.put("^setsettings modrole musicvoice", "sets the music voice channel the only channel music can be played in");
         commands.put("^setsettings modrole musictext", "sets the music text channel the only channel much can be played in");
 
+        IPrivateChannel iPrivateChannel = user.getOrCreatePMChannel();
 
-        user.getOrCreatePMChannel().sendMessage(commands.toString(), false);
+        commands.forEach((s, n) ->{
+        iPrivateChannel.sendMessage(s + "\n" + n);
+        });
+
+        //user.getOrCreatePMChannel().sendMessage(commands.toString(), false);
     }
 
     @Command(aliases = {"ban"}, description = "Bans all tagged players", usage = "ban @playername")
