@@ -10,6 +10,6 @@ import java.util.TimerTask;
 public class onMinuteTimer extends TimerTask {
     @Override
     public void run() {
-        ExpeditConst.uptime = ExpeditConst.uptime++;
+
     }
 }
