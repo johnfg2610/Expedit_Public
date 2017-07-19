@@ -45,7 +45,21 @@ public class DevelopmentCommandHandler implements CommandExecutor {
     public void onCommandMemStat(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         //my id
         if (user.getLongID() == 200989665304641536L) {
-            channel.sendMessage(String.valueOf(Runtime.getRuntime().totalMemory()) + " bytes aka " + String.valueOf(Runtime.getRuntime().totalMemory() / 1000000) + "MB" );
+            long totalMemory = Runtime.getRuntime().totalMemory() / 1000000;
+            long freeMemory = Runtime.getRuntime().freeMemory() / 1000000;
+            long maxMemory = Runtime.getRuntime().maxMemory() / 1000000;
+            long usedMemory = maxMemory - freeMemory;
+            long percentageUsed = (usedMemory*100)/maxMemory;
+
+            EmbedBuilder embedBuilder = new EmbedBuilder();
+            embedBuilder.withTitle("Memory stats");
+            embedBuilder.appendField("Total memory available ", String.valueOf(totalMemory), false );
+            embedBuilder.appendField("Free memory available ", String.valueOf(freeMemory), false );
+            embedBuilder.appendField("Max memory available ", String.valueOf(maxMemory), false );
+            embedBuilder.appendField("Used memory ", String.valueOf(usedMemory), false );
+            embedBuilder.appendField("Memory % used ", String.valueOf(percentageUsed) + '%', false );
+
+            channel.sendMessage(embedBuilder.build());
         }
     }
 
