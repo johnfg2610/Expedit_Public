@@ -6,6 +6,7 @@ import de.btobastian.sdcf4j.CommandHandler;
 import io.github.johnfg10.ExpeditConst;
 import io.github.johnfg10.utils.RequestBufferHelper;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
+import sx.blah.discord.handle.impl.obj.Embed;
 import sx.blah.discord.handle.obj.*;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.EmbedBuilder;
@@ -14,10 +15,7 @@ import sx.blah.discord.util.RateLimitException;
 
 import java.lang.management.ManagementFactory;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.TreeMap;
+import java.util.*;
 
 import static io.github.johnfg10.utils.MessageUtil.hasPerm;
 
@@ -27,11 +25,7 @@ import static io.github.johnfg10.utils.MessageUtil.hasPerm;
 public class GeneralCommandHandler implements CommandExecutor {
     @Command(aliases = {"help", "halp", "welp"}, description = "Help", async = true)
     public void onCommandHelp(IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        TreeMap<String, String> commands = new TreeMap<>();
-
-        //EmbedBuilder embedBuilder = new EmbedBuilder();
-        //embedBuilder.withTitle("Help!");
-        //embedBuilder.withColor(38, 112, 4);
+        List<EmbedObject.EmbedFieldObject> embedFields = new ArrayList<>();
         List<CommandHandler.SimpleCommand> simpleCommands = ExpeditConst.commandHandler.getCommands();
         for (CommandHandler.SimpleCommand simpleCommand:simpleCommands) {
             if(simpleCommand.getCommandAnnotation().showInHelpPage() == true){
@@ -52,20 +46,26 @@ public class GeneralCommandHandler implements CommandExecutor {
                         simpleCommand.getCommandAnnotation().usage(),
                         simpleCommand.getCommandAnnotation().requiredPermissions()
                 );
-                commands.put(simpleCommand.getCommandAnnotation().aliases()[0], formatedString);
-
+                embedFields.add(new EmbedObject.EmbedFieldObject(simpleCommand.getCommandAnnotation().aliases()[0], formatedString, false));
             }
         }
-        commands.put("^setsettings modrole rolename", "sets the mod role name expedit should look for");
-        commands.put("^setsettings modrole musicvoice", "sets the music voice channel the only channel music can be played in");
-        commands.put("^setsettings modrole musictext", "sets the music text channel the only channel much can be played in");
+        embedFields.add(new EmbedObject.EmbedFieldObject("^setsettings modrole rolename", "sets the mod role name expedit should look for", false));
+        embedFields.add(new EmbedObject.EmbedFieldObject("^setsettings modrole musicvoice", "sets the music voice channel the only channel music can be played in", false));
+        embedFields.add(new EmbedObject.EmbedFieldObject("^setsettings modrole musictext", "sets the music text channel the only channel much can be played in", false));
 
         IPrivateChannel iPrivateChannel = user.getOrCreatePMChannel();
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        int embededAmount = 0;
+        for (EmbedObject.EmbedFieldObject embedField : embedFields) {
+            if (embededAmount == 25){
+                iPrivateChannel.sendMessage(embedBuilder.build());
+                embedBuilder = new EmbedBuilder();
+                embededAmount = 0;
+            }
+            embedBuilder.appendField(embedField.name, embedField.value, embedField.inline);
+            embededAmount++;
 
-        commands.forEach((s, n) ->{
-            RequestBufferHelper.RequestBuffer(iPrivateChannel, s + "\n" + n);
-        });
-
+        }
         //user.getOrCreatePMChannel().sendMessage(commands.toString(), false);
     }
 
