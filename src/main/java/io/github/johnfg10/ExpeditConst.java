@@ -31,7 +31,7 @@ public class ExpeditConst {
     public static AudioHelper audioHelper;
     public static GeneralSettingsDatabaseUtils databaseUtils;
     public static ConfigSettings configSettings;
-    public static Api SPOTIFYAPI;
+    public static Api SPOTIFYAPI = Api.DEFAULT_API;
 
     public static List<String> githubBlackListedUsers = Arrays.asList("");
 }

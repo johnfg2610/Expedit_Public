@@ -9,6 +9,7 @@ import com.wrapper.spotify.models.Page;
 import com.wrapper.spotify.models.Track;
 import de.btobastian.sdcf4j.Command;
 import de.btobastian.sdcf4j.CommandExecutor;
+import io.github.johnfg10.Expedit;
 import io.github.johnfg10.ExpeditConst;
 import io.github.johnfg10.utils.AudioHelper;
 import io.github.johnfg10.utils.GuildMusicManager;
@@ -35,12 +36,15 @@ public class SpotifyCommandHandlers implements CommandExecutor {
     public String onCommandSptrack(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException, UnirestException {
         String cleanMsg = message.getContent().replaceAll(command, "");
         try {
-            TrackSearchRequest trackSearchRequest = ExpeditConst.SPOTIFYAPI.searchTracks(cleanMsg).limit(1).build();
-            Page<Track> trackPage =  trackSearchRequest.get();
-            AudioPlayer audioPlayer = AudioUtils.getAudioPlayer(guild);
-            String uri = trackPage.getItems().get(0).getUri();
-            System.out.println(uri);
-            audioPlayer.queue(new URL(uri));
+
+            final TrackSearchRequest request = ExpeditConst.SPOTIFYAPI.searchTracks(cleanMsg).build();
+            final Page<Track> trackSearchResult = request.get();
+            System.out.println("I got " + trackSearchResult.getTotal() + " results!");
+
+            Track track = trackSearchResult.getItems().get(1);
+            System.out.println(track.getUri());
+            AudioUtils.getAudioPlayer(guild).queue(new URL(track.getUri()));
+
             return "Song added to queue";
 
 
