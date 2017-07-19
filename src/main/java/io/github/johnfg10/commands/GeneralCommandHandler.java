@@ -55,17 +55,18 @@ public class GeneralCommandHandler implements CommandExecutor {
 
         IPrivateChannel iPrivateChannel = user.getOrCreatePMChannel();
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        int embededAmount = 0;
+        int embedAmount = 0;
         for (EmbedObject.EmbedFieldObject embedField : embedFields) {
-            if (embededAmount == 25){
+            if (embedAmount == 25){
                 iPrivateChannel.sendMessage(embedBuilder.build());
                 embedBuilder = new EmbedBuilder();
-                embededAmount = 0;
+                embedAmount = 0;
             }
             embedBuilder.appendField(embedField.name, embedField.value, embedField.inline);
-            embededAmount++;
+            embedAmount++;
 
         }
+        iPrivateChannel.sendMessage(embedBuilder.build());
         //user.getOrCreatePMChannel().sendMessage(commands.toString(), false);
     }
 
