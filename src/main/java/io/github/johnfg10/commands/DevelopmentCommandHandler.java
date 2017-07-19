@@ -53,10 +53,10 @@ public class DevelopmentCommandHandler implements CommandExecutor {
 
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.withTitle("Memory stats");
-            embedBuilder.appendField("Total memory available ", String.valueOf(totalMemory), false );
-            embedBuilder.appendField("Free memory available ", String.valueOf(freeMemory), false );
-            embedBuilder.appendField("Max memory available ", String.valueOf(maxMemory), false );
-            embedBuilder.appendField("Used memory ", String.valueOf(usedMemory), false );
+            embedBuilder.appendField("Total memory available ", String.valueOf(totalMemory) + "MB's", false );
+            embedBuilder.appendField("Free memory available ", String.valueOf(freeMemory) + "MB's", false );
+            embedBuilder.appendField("Max memory available ", String.valueOf(maxMemory) + "MB's", false );
+            embedBuilder.appendField("Used memory ", String.valueOf(usedMemory) + "MB's", false );
             embedBuilder.appendField("Memory % used ", String.valueOf(percentageUsed) + '%', false );
 
             channel.sendMessage(embedBuilder.build());
