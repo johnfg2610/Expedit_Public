@@ -1,14 +1,8 @@
 package io.github.johnfg10.handlers;
 
+
 import sx.blah.discord.api.events.IListener;
-import sx.blah.discord.handle.impl.events.MessageDeleteEvent;
-import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.EmbedBuilder;
-import sx.blah.discord.util.MissingPermissionsException;
-import sx.blah.discord.util.RateLimitException;
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageDeleteEvent;
 
 /**
  * Created by johnfg10 on 18/03/2017.

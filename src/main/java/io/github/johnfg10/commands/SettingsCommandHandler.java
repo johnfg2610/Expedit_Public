@@ -22,10 +22,10 @@ public class SettingsCommandHandler implements de.btobastian.sdcf4j.CommandExecu
     public void onCommandSetSettings(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         try {
             String perm;
-            if (ExpeditConst.databaseUtils.getSetting("modrole", guild.getID()) == null){
+            if (ExpeditConst.databaseUtils.getSetting("modrole", guild.getStringID()) == null){
                 perm = "ExpeditMod";
             }else {
-                perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getID());
+                perm = ExpeditConst.databaseUtils.getSetting("modrole", guild.getStringID());
             }
 
             if (hasPerm(user, guild, perm)) {
@@ -39,7 +39,7 @@ public class SettingsCommandHandler implements de.btobastian.sdcf4j.CommandExecu
                                                         "VALUES (%2s,'%3s')\n" +
                                                         "ON DUPLICATE KEY UPDATE defaultprefix = '%4s';",
                                                 ExpeditConst.databaseUtils.getSchema(),
-                                                guild.getID(),
+                                                guild.getStringID(),
                                                 args[1].replaceAll(" ", ""),
                                                 args[1].replaceAll(" ", "")
                                         )
@@ -62,7 +62,7 @@ public class SettingsCommandHandler implements de.btobastian.sdcf4j.CommandExecu
                                                         "VALUES (%2s,'%3s')\n" +
                                                         "ON DUPLICATE KEY UPDATE modrole = '%4s';",
                                                 ExpeditConst.databaseUtils.getSchema(),
-                                                guild.getID(),
+                                                guild.getStringID(),
                                                 args[1].replaceAll(" ", ""),
                                                 args[1].replaceAll(" ", "")
                                         )
@@ -85,7 +85,7 @@ public class SettingsCommandHandler implements de.btobastian.sdcf4j.CommandExecu
                                                         "VALUES (%2s,'%3s')\n" +
                                                         "ON DUPLICATE KEY UPDATE musicText = '%4s';",
                                                 ExpeditConst.databaseUtils.getSchema(),
-                                                guild.getID(),
+                                                guild.getStringID(),
                                                 args[1].replaceAll(" ", ""),
                                                 args[1].replaceAll(" ", "")
                                         )
@@ -108,7 +108,7 @@ public class SettingsCommandHandler implements de.btobastian.sdcf4j.CommandExecu
                                                         "VALUES (%2s,'%3s')\n" +
                                                         "ON DUPLICATE KEY UPDATE musicVoice = '%4s';",
                                                 ExpeditConst.databaseUtils.getSchema(),
-                                                guild.getID(),
+                                                guild.getStringID(),
                                                 args[1].replaceAll(" ", ""),
                                                 args[1].replaceAll(" ", "")
                                         )

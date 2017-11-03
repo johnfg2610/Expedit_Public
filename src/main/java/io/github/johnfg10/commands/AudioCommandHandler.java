@@ -184,7 +184,7 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
                 embedBuilder.appendField("Duration", String.valueOf(audioTrackInfo.getDuration()), false);
                 embedBuilder.appendField("Current Position", String.valueOf(audioTrackInfo.getPosition()), false);
                 embedBuilder.appendField("Source name", audioTrackInfo.getSourceManager().getSourceName(), false);
-                RequestBufferHelper.RequestBuffer(channel, "", embedBuilder.ignoreNullEmptyFields().build(), false);
+                RequestBufferHelper.RequestBuffer(channel, "", embedBuilder.setLenient(false).build(), false);
             }
 
         }
@@ -276,8 +276,8 @@ public class AudioCommandHandler implements de.btobastian.sdcf4j.CommandExecutor
         String musicText = null;
         boolean shouldUseText = true;
         try {
-            musicVoice = ExpeditConst.databaseUtils.getSetting("musicVoice", guild.getID());
-            musicText = ExpeditConst.databaseUtils.getSetting("musicText", guild.getID());
+            musicVoice = ExpeditConst.databaseUtils.getSetting("musicVoice", guild.getStringID());
+            musicText = ExpeditConst.databaseUtils.getSetting("musicText", guild.getStringID());
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException e) {
             e.printStackTrace();
         }

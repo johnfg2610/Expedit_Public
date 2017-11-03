@@ -15,7 +15,7 @@ public class MessageUtil {
         if(user.getPermissionsForGuild(guild).contains(Permissions.ADMINISTRATOR))
             return true;
         //overrides if the users is me
-        if (Objects.equals(user.getID(), "200989665304641536"))
+        if (Objects.equals(user.getStringID(), "200989665304641536"))
             return true;
 
         for (IRole role:user.getRolesForGuild(guild)) {

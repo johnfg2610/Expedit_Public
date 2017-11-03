@@ -12,6 +12,7 @@ import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventDispatcher;
 import sx.blah.discord.util.DiscordException;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.Timer;
@@ -25,7 +26,9 @@ public class Expedit {
         ConfigSettings configSettings = null;
         Connection conn = null;
         try {
+            File file = new File("./expeditconfig.hocon");
             configSettings = new ConfigSettings("./expeditconfig.hocon");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,7 +39,7 @@ public class Expedit {
             //ToDo add fall back??
         }
 
-        if (configSettings.getNode().getNode("token", "clienttoken").getString() == "" || configSettings.getNode().getNode("token", "youtubeapi").getString() == "" || configSettings.getNode().getNode("token", "defaultprefix").getString() == ""){
+        if (configSettings.getNode().getNode("token", "clienttoken").getString().equals("") || configSettings.getNode().getNode("token", "youtubeapi").getString().equals("") || configSettings.getNode().getNode("token", "defaultprefix").getString().equals("")){
             System.out.println("All tokens need to be filled in!");
             return;
         }

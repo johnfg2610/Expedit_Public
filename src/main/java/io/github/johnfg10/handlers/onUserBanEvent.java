@@ -1,7 +1,6 @@
 package io.github.johnfg10.handlers;
-
 import sx.blah.discord.api.events.IListener;
-import sx.blah.discord.handle.impl.events.UserBanEvent;
+import sx.blah.discord.handle.impl.events.guild.member.UserBanEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.util.DiscordException;
@@ -16,7 +15,6 @@ public class onUserBanEvent implements IListener<UserBanEvent> {
     @Override
     public void handle(UserBanEvent event) {
         IGuild guild = event.getGuild();
-
         IChannel channel1 = guild.getChannelsByName("log").get(0);
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.withTitle("User banned");
@@ -25,7 +23,7 @@ public class onUserBanEvent implements IListener<UserBanEvent> {
             embedBuilder.withAuthorIcon(event.getUser().getAvatarURL());
 
         embedBuilder.appendField("Username", event.getUser().getName(), false);
-        embedBuilder.appendField("ID", event.getUser().getID(), false);
+        embedBuilder.appendField("ID", event.getUser().getStringID(), false);
 
         try {
             channel1.sendMessage("", embedBuilder.build(), false);

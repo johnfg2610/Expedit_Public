@@ -24,9 +24,9 @@ public class DevelopmentCommandHandler implements CommandExecutor {
     @Command(aliases = {"debuginfo"})
     public void onCommandMyUserID(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.appendField("Guild ID", guild.getID(), false);
-        embedBuilder.appendField("Channel ID", channel.getID(), false);
-        embedBuilder.appendField("User ID", user.getID(), false);
+        embedBuilder.appendField("Guild ID", guild.getStringID(), false);
+        embedBuilder.appendField("Channel ID", channel.getStringID(), false);
+        embedBuilder.appendField("User ID", user.getStringID(), false);
 
         RequestBufferHelper.RequestBuffer(channel, "", embedBuilder.build(), false);
     }
@@ -101,7 +101,7 @@ public class DevelopmentCommandHandler implements CommandExecutor {
 
     @Command(aliases = {"reportbug"}, description = "Reports a bug!")
     public void onCommandReportBug(IMessage message, IUser user, IGuild guild, IChannel channel, String command, String[] args) throws RateLimitException, DiscordException, MissingPermissionsException {
-        if (ExpeditConst.githubBlackListedUsers.contains(user.getID())) {
+        if (ExpeditConst.githubBlackListedUsers.contains(user.getStringID())) {
             RequestBufferHelper.RequestBuffer(channel, "you have been blacklisted from using this command if you belive this is in error please contact johnfg10");
         } else {
             try {
@@ -111,11 +111,11 @@ public class DevelopmentCommandHandler implements CommandExecutor {
                         "\n" +
                         "additional information:" +
                         "\nGuild ID: " +
-                        guild.getID() +
+                        guild.getStringID() +
                         "\nChannel ID: " +
-                        channel.getID() +
+                        channel.getStringID() +
                         "\nUser ID:" +
-                        user.getID()
+                        user.getStringID()
                 ).assignee("johnfg10").create();
 
                 RequestBufferHelper.RequestBuffer(channel, "link: " + issue.getHtmlUrl());

@@ -14,8 +14,8 @@ public class onUserVoiceChannelLeaveEvent implements IListener<UserVoiceChannelL
     @Override
     public void handle(UserVoiceChannelLeaveEvent event) {
         try {
-            if (event.getVoiceChannel().getName().matches(ExpeditConst.databaseUtils.getSetting("musicVoice", event.getVoiceChannel().getGuild().getID())) && event.getVoiceChannel().isConnected()) {
-                if (event.getVoiceChannel().getGuild().getVoiceChannelByID(event.getVoiceChannel().getID()).getConnectedUsers().size() <=  1){
+            if (event.getVoiceChannel().getName().matches(ExpeditConst.databaseUtils.getSetting("musicVoice", event.getVoiceChannel().getGuild().getStringID())) && event.getVoiceChannel().isConnected()) {
+                if (event.getVoiceChannel().getGuild().getVoiceChannelByID(event.getVoiceChannel().getLongID()).getConnectedUsers().size() <=  1){
                    ExpeditConst.audioHelper.getGuildAudioPlayer(event.getVoiceChannel().getGuild()).player.setPaused(true);
                    event.getVoiceChannel().leave();
                 }

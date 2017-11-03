@@ -38,7 +38,7 @@ public class AudioHelper {
     }
 
     public synchronized GuildMusicManager getGuildAudioPlayer(IGuild guild) {
-        long guildId = Long.parseLong(guild.getID());
+        long guildId = Long.parseLong(guild.getStringID());
         GuildMusicManager musicManager = this.musicManagers.get(guildId);
 
         if (musicManager == null) {

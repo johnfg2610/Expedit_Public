@@ -26,7 +26,7 @@ public class onReadyEvent implements IListener<ReadyEvent> {
                 ExpeditConst.databaseUtils.excuteSql(
                         "INSERT INTO botdatabase.generalsettings (guildid, defaultprefix, modrole) " +
                                 "VALUES (" +
-                                guild.getID() +
+                                guild.getStringID() +
                                 ", '^', 'expeditmod'" +
                                 ")"
                 );

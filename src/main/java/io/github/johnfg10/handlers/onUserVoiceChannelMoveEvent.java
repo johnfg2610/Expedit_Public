@@ -2,7 +2,7 @@ package io.github.johnfg10.handlers;
 
 import io.github.johnfg10.ExpeditConst;
 import sx.blah.discord.api.events.IListener;
-import sx.blah.discord.handle.impl.events.UserVoiceChannelMoveEvent;
+import sx.blah.discord.handle.impl.events.guild.voice.user.UserVoiceChannelMoveEvent;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.MissingPermissionsException;
 
@@ -16,7 +16,7 @@ public class onUserVoiceChannelMoveEvent implements IListener<UserVoiceChannelMo
     @Override
     public void handle(UserVoiceChannelMoveEvent event) {
         try {
-            if (event.getNewChannel().getName().matches(ExpeditConst.databaseUtils.getSetting("musicVoice", event.getOldChannel().getGuild().getID()))){
+            if (event.getNewChannel().getName().matches(ExpeditConst.databaseUtils.getSetting("musicVoice", event.getOldChannel().getGuild().getStringID()))){
                 if (!event.getNewChannel().isConnected()){
                     try {
                         event.getNewChannel().join();
@@ -25,8 +25,8 @@ public class onUserVoiceChannelMoveEvent implements IListener<UserVoiceChannelMo
                         e.printStackTrace();
                     }
                 }
-            }else if(event.getOldChannel().getName().matches(ExpeditConst.databaseUtils.getSetting("musicVoice", event.getOldChannel().getGuild().getID()))){
-                if (event.getOldChannel().getGuild().getVoiceChannelByID(event.getOldChannel().getID()).getConnectedUsers().size() <=  1){
+            }else if(event.getOldChannel().getName().matches(ExpeditConst.databaseUtils.getSetting("musicVoice", event.getOldChannel().getGuild().getStringID()))){
+                if (event.getOldChannel().getGuild().getVoiceChannelByID(event.getOldChannel().getLongID()).getConnectedUsers().size() <=  1){
                     ExpeditConst.audioHelper.getGuildAudioPlayer(event.getOldChannel().getGuild()).player.setPaused(true);
                     event.getOldChannel().leave();
                 }

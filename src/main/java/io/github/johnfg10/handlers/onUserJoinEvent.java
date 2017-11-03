@@ -1,18 +1,8 @@
 package io.github.johnfg10.handlers;
 
-import io.github.johnfg10.Expedit;
 import io.github.johnfg10.ExpeditConst;
-import io.github.johnfg10.utils.storage.GeneralSettingsDatabaseUtils;
 import sx.blah.discord.api.events.IListener;
-import sx.blah.discord.handle.impl.events.UserJoinEvent;
-import sx.blah.discord.handle.impl.obj.Role;
-import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IRole;
-import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.EmbedBuilder;
-import sx.blah.discord.util.MissingPermissionsException;
-import sx.blah.discord.util.RateLimitException;
+import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
 
 import java.sql.SQLException;
 
@@ -51,7 +41,7 @@ public class onUserJoinEvent implements IListener<UserJoinEvent> {
 
         if (event.getUser().equals(ExpeditConst.iDiscordClient.getOurUser())){
             try {
-                ExpeditConst.databaseUtils.setupDefaultGuildEntry(event.getGuild().getID());
+                ExpeditConst.databaseUtils.setupDefaultGuildEntry(event.getGuild().getStringID());
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (SQLException e) {
