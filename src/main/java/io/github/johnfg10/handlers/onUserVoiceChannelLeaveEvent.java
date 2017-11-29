@@ -1,6 +1,7 @@
 package io.github.johnfg10.handlers;
 
 import io.github.johnfg10.ExpeditConst;
+import io.github.johnfg10.utils.RequestBufferHelper;
 import sx.blah.discord.api.events.IListener;
 import sx.blah.discord.handle.impl.events.guild.voice.user.UserVoiceChannelLeaveEvent;
 
@@ -16,8 +17,10 @@ public class onUserVoiceChannelLeaveEvent implements IListener<UserVoiceChannelL
         try {
             if (event.getVoiceChannel().getName().matches(ExpeditConst.databaseUtils.getSetting("musicVoice", event.getVoiceChannel().getGuild().getStringID())) && event.getVoiceChannel().isConnected()) {
                 if (event.getVoiceChannel().getGuild().getVoiceChannelByID(event.getVoiceChannel().getLongID()).getConnectedUsers().size() <=  1){
-                   ExpeditConst.audioHelper.getGuildAudioPlayer(event.getVoiceChannel().getGuild()).player.setPaused(true);
-                   event.getVoiceChannel().leave();
+                    RequestBufferHelper.RequestBuffer(event.getClient().getGuildByID(353233752685543424L).getChannelByID(385572958770298881L), "User disconnect debug called: " + event.getVoiceChannel().getGuild().getVoiceChannelByID(event.getVoiceChannel().getLongID()).getConnectedUsers().size());
+
+                    ExpeditConst.audioHelper.getGuildAudioPlayer(event.getVoiceChannel().getGuild()).player.setPaused(true);
+                    event.getVoiceChannel().leave();
                 }
             }
         } catch (ClassNotFoundException e) {
