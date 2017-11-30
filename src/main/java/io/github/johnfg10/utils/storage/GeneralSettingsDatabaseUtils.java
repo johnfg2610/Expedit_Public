@@ -27,15 +27,14 @@ public class GeneralSettingsDatabaseUtils {
                             ".generalsettings (" +
                             "id INT NOT NULL AUTO_INCREMENT," +
                             "PRIMARY KEY(id)," +
-                            "UNIQUE (ID)," +
-                            "guildid varchar(255) NOT NULL," +
-                            "UNIQUE (guildid)," +
-                            "defaultprefix varchar(255) DEFAULT '^'," +
-                            "modrole varchar(255)  DEFAULT 'expeditMod'," +
-                            "musicText varchar(255)," +
-                            "musicVoice varchar(255) DEFAULT 'MusicChannel'," +
-                            "bannedwords varchar(10000) DEFAULT '[]'" +
-                            "enablelog boolean DEFAULT TRUE" +
+                            "UNIQUE (id)," +
+                            "guildid TEXT(255) NOT NULL," +
+                            "defaultprefix TEXT," +
+                            "modrole TEXT," +
+                            "musicText TINYTEXT," +
+                            "musicVoice TEXT," +
+                            "bannedwords LONGTEXT," +
+                            "enablelog boolean" +
                             ")"
             );
             excuteSql(
@@ -45,10 +44,10 @@ public class GeneralSettingsDatabaseUtils {
                             "id INT NOT NULL AUTO_INCREMENT," +
                             "PRIMARY KEY(id)," +
                             "UNIQUE (id)," +
-                            "guildid varchar(255) NOT NULL," +
+                            "guildid TEXT(255)," +
                             "time datetime NOT NULL," +
-                            "logevent varchar(255) NOT NULL," +
-                            "message varchar(255) NOT NULL" +
+                            "logevent TINYTEXT," +
+                            "message TINYTEXT" +
                             ")"
             );
             excuteSql(
@@ -56,9 +55,9 @@ public class GeneralSettingsDatabaseUtils {
                             schema +
                             ".warnings (" +
                             "id INT NOT NULL AUTO_INCREMENT,"+
-                            "PRIMARY KEY(id)" +
+                            "PRIMARY KEY(id)," +
                             "UNIQUE(id)," +
-                            "warning varchar(255) NOT NULL"+
+                            "warning TINYTEXT"+
                             ")"
             );
 
