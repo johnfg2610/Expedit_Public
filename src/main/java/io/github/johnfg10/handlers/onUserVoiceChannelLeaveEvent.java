@@ -17,8 +17,6 @@ public class onUserVoiceChannelLeaveEvent implements IListener<UserVoiceChannelL
         try {
             if (event.getVoiceChannel().getName().matches(ExpeditConst.databaseUtils.getSetting("musicVoice", event.getVoiceChannel().getGuild().getStringID())) && event.getVoiceChannel().isConnected()) {
                 if (event.getVoiceChannel().getGuild().getVoiceChannelByID(event.getVoiceChannel().getLongID()).getConnectedUsers().size() <=  1){
-                    RequestBufferHelper.RequestBuffer(event.getClient().getGuildByID(353233752685543424L).getChannelByID(385572958770298881L), "User disconnect debug called: " + event.getVoiceChannel().getGuild().getVoiceChannelByID(event.getVoiceChannel().getLongID()).getConnectedUsers().size());
-
                     ExpeditConst.audioHelper.getGuildAudioPlayer(event.getVoiceChannel().getGuild()).player.setPaused(true);
                     event.getVoiceChannel().leave();
                 }
