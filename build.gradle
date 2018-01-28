@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.10'
+    ext.kotlin_version = '1.2.21'
     ext.fuel_version = '1.12.0'
 
     repositories {
@@ -33,21 +33,19 @@ repositories {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21'
+    compile group: 'com.h2database', name: 'h2', version: '1.4.195'
 
     compile group: 'commons-validator', name: 'commons-validator', version: '1.6'
-
+    //https://github.com/sedmelluq/lavaplayer
     compile 'com.sedmelluq:lavaplayer:1.2.45'
-
+    //https://github.com/austinv11/Discord4J/releases
     compile "com.github.austinv11:Discord4J:2.9.3"
-
+    //https://github.com/kvnxiao/meirei
     compile "com.github.kvnxiao.meirei:meirei-d4j:0.8.1"
 
-    compile 'io.github.config4k:config4k:0.3.0'
-
+    compile 'com.natpryce:konfig:1.6.1.0'
 
     compile 'org.jetbrains.exposed:exposed:0.9.1'
-
-    compile group: 'com.h2database', name: 'h2', version: '1.4.196'
 
     //compile 'com.github.ben-manes.caffeine:caffeine:2.6.1'
 
@@ -57,14 +55,14 @@ dependencies {
     compile "com.github.kittinunf.fuel:fuel:$fuel_version" //for JVM
     compile "com.github.kittinunf.fuel:fuel-gson:$fuel_version" //for Gson support
 
-    compile 'com.beust:klaxon:2.0.0'
+    compile 'com.beust:klaxon:2.1.2'
 
     compile 'org.simpleframework:simple-xml:2.7.1'
 
 
 }
 
-kotlin { experimental { coroutines 'enable' } }
+kotlin { experimental { coroutines "enable" } }
 
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"

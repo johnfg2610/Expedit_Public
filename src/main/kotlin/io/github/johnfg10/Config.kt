@@ -1,5 +1,18 @@
 package io.github.johnfg10
 
-data class BotConfig(val token: String, val prefix: String)
+import com.natpryce.konfig.PropertyGroup
+import com.natpryce.konfig.getValue
+import com.natpryce.konfig.stringType
 
-data class DatabaseConfig(val jdbcConnectionString: String, val driver: String, val username: String, val password: String)
+object BotConfig : PropertyGroup(){
+    val token by stringType
+    val prefix by stringType
+}
+
+
+object DatabaseConfig : PropertyGroup(){
+    val jdbcConnectionString by stringType
+    val driver by stringType
+    val username by stringType
+    val password by stringType
+}

@@ -1,8 +1,11 @@
 package io.github.johnfg10
 
 import com.github.kvnxiao.discord.meirei.d4j.MeireiD4J
-import com.typesafe.config.ConfigFactory
-import io.github.config4k.extract
+import com.natpryce.konfig.Configuration
+import com.natpryce.konfig.ConfigurationProperties
+import com.natpryce.konfig.ConfigurationProperties.Companion.systemProperties
+import com.natpryce.konfig.EnvironmentVariables
+import com.natpryce.konfig.overriding
 import io.github.johnfg10.commands.*
 import io.github.johnfg10.database.RulesDatabaseHandler
 import io.github.johnfg10.music.MusicCommands
@@ -23,8 +26,7 @@ fun main(args: Array<String>){
 
 class Expedit{
     companion object {
-        lateinit var botConfig: BotConfig
-        lateinit var databaseConfig: DatabaseConfig
+        lateinit var configuration: Configuration
         val logger: Logger = LoggerFactory.getLogger(Expedit::class.java)
         lateinit var discordClient: IDiscordClient
         const val prefix: String = "+"
@@ -35,17 +37,16 @@ class Expedit{
     init {
         SetupConfigDir()
 
-        val configPair = SetupConfig()
-        Expedit.Companion.botConfig = configPair.first
-        Expedit.Companion.databaseConfig = configPair.second
+        Expedit.configuration = SetupConfig()
 
-        Expedit.rulesDBHandler = RulesDatabaseHandler(Expedit.databaseConfig.jdbcConnectionString,
-                Expedit.databaseConfig.driver, Expedit.databaseConfig.username, Expedit.databaseConfig.password)
 
-        if (Expedit.Companion.botConfig.token == "")
+        Expedit.rulesDBHandler = RulesDatabaseHandler(Expedit.configuration[DatabaseConfig.jdbcConnectionString],
+                Expedit.configuration[DatabaseConfig.driver], Expedit.configuration[DatabaseConfig.username], Expedit.configuration[DatabaseConfig.password])
+
+        if (Expedit.Companion.configuration[BotConfig.token] == "")
             throw IllegalArgumentException("Please fill in token")
 
-        Expedit.discordClient = ClientBuilder().withToken(Expedit.Companion.botConfig.token).build()
+        Expedit.discordClient = ClientBuilder().withToken(Expedit.Companion.configuration[BotConfig.token]).build()
 
         val meirei = MeireiD4J(discordClient)
         meirei.addAnnotatedCommands(TestCommands())
@@ -104,7 +105,7 @@ class Expedit{
 
         //lets make sure the client is always connected
         fixedRateTimer("heartbeat-timer", initialDelay = 1800000, period = 1200000){
-            async{
+            launch {
                 if (!discordClient.isLoggedIn){
                     discordClient.login()
                 }
@@ -118,18 +119,15 @@ class Expedit{
         }
     }
 
-    private fun SetupConfig() : Pair<BotConfig, DatabaseConfig> {
-        val configFile = File("./configs/config.hocon")
+    private fun SetupConfig() : Configuration {
+        val configFile = File("./configs/config.properties")
         if (!configFile.exists()){
             configFile.createNewFile()
-            configFile.writeText(Expedit::class.java.getResource("/config.hocon").readText())
+            configFile.writeText(Expedit::class.java.getResource("/config.properties").readText())
         }
 
-        val config = ConfigFactory.parseFile(configFile)
-
-        val botConfig: BotConfig = config.extract("bot")
-        val databaseConfig: DatabaseConfig = config.extract("database")
-
-        return Pair(botConfig, databaseConfig)
+        return systemProperties() overriding
+                EnvironmentVariables() overriding
+                ConfigurationProperties.fromFile(File("configs/config.properties"))
     }
 }

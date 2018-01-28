@@ -3,16 +3,9 @@ package io.github.johnfg10.nationalrail
 import com.beust.klaxon.Klaxon
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
-import com.sun.javaws.exceptions.InvalidArgumentException
 import io.github.johnfg10.nationalrail.authenticate.Authenticate
-import io.github.johnfg10.nationalrail.incident.Incident
 import io.github.johnfg10.nationalrail.incident.Incidents
 import org.simpleframework.xml.core.Persister
-import jdk.nashorn.internal.objects.NativeRegExp.source
-import org.h2.util.JdbcUtils.serializer
-
-
-
 
 
 open class NationalRailApi{
@@ -20,7 +13,8 @@ open class NationalRailApi{
     val auth: Authenticate
 
     constructor(username: String, password: String){
-        auth = Authenticate(username, password) ?: throw InvalidArgumentException(arrayOf("Authentication could not be established!"))
+        //auth = Authenticate(username, password) ?: throw InvalidArgumentException(arrayOf("Authentication could not be established!"))
+        auth = Authenticate(username, password) ?: throw IllegalArgumentException("Authentication could not be established!")
     }
 
     constructor(authenticate: Authenticate){
