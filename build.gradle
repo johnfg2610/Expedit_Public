@@ -1,51 +1,82 @@
+buildscript {
+    ext.kotlin_version = '1.2.10'
+    ext.fuel_version = '1.12.0'
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+    }
+}
+
 group 'io.github.johnfg10'
-version '1.1.0'
+version '1.0.0'
 
-apply plugin: 'java'
-
-sourceCompatibility = 1.8
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'kotlin'
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://jcenter.bintray.com"
-    }
+    jcenter() //This prevents issues with transitive dependencies
     maven {
         url  "https://jitpack.io"
     }
     maven {
-        url  "http://repo.bastian-oppermann.de"
+        url  "https://dl.bintray.com/kotlin/exposed"
     }
 }
 
-configurations {
-    // configuration that holds jars to include in the jar
-    required
-}
 
 dependencies {
-    required "com.github.austinv11:Discord4j:2.9.3"
-    required "de.btobastian.sdcf4j:sdcf4j-core:1.0.6"
-    required "de.btobastian.sdcf4j:sdcf4j-discord4j:1.0.6"
-    required "ninja.leaping.configurate:configurate-hocon:3.3"
-    required group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
-    required "com.mashape.unirest:unirest-java:1.4.9"
-    required "com.sedmelluq:lavaplayer:1.2.44"
-    required group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
-    required 'org.kohsuke:github-api:1.86'
-    required group: 'org.json', name: 'json', version: '20170516'
-    required 'se.michaelthelin.spotify:spotify-web-api-java:1.5.0'
-    required fileTree(dir: 'libs', include: '*.jar')
-    configurations.compile.extendsFrom(configurations.required)
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21'
+
+    compile group: 'commons-validator', name: 'commons-validator', version: '1.6'
+
+    compile 'com.sedmelluq:lavaplayer:1.2.45'
+
+    compile "com.github.austinv11:Discord4J:2.9.3"
+
+    compile "com.github.kvnxiao.meirei:meirei-d4j:0.8.1"
+
+    compile 'io.github.config4k:config4k:0.3.0'
+
+
+    compile 'org.jetbrains.exposed:exposed:0.9.1'
+
+    compile group: 'com.h2database', name: 'h2', version: '1.4.196'
+
+    //compile 'com.github.ben-manes.caffeine:caffeine:2.6.1'
+
+    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+
+    compile "com.github.kittinunf.fuel:fuel:$fuel_version" //for JVM
+    compile "com.github.kittinunf.fuel:fuel-gson:$fuel_version" //for Gson support
+
+    compile 'com.beust:klaxon:2.0.0'
+
+    compile 'org.simpleframework:simple-xml:2.7.1'
+
+
 }
 
-jar {
-    from {
-        configurations.required.collect { it.isDirectory() ? it : zipTree(it) }
-    }
+kotlin { experimental { coroutines 'enable' } }
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+shadow {
     manifest {
         attributes(
-                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
                 'Main-Class': 'io.github.johnfg10.Expedit'
         )
     }

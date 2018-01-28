@@ -1,0 +1,10 @@
+"bot" {
+    token = ""
+    prefix = "+"
+},
+"database" {
+    jdbcConnectionString = "jdbc:h2:file:./database/expedit"
+    driver = "org.h2.Driver"
+    username = ""
+    password = ""
+}
