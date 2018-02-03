@@ -1,18 +1,11 @@
 package io.github.johnfg10.database
 
-import com.github.benmanes.caffeine.cache.*
-import com.github.benmanes.caffeine.cache.stats.CacheStats
-import io.github.johnfg10.Expedit
-import org.h2.bnf.Rule
+import com.github.benmanes.caffeine.cache.Caffeine
+import com.github.benmanes.caffeine.cache.LoadingCache
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
-import sx.blah.discord.Discord4J
-import sx.blah.discord.api.DiscordStatus
-import sx.blah.discord.api.IDiscordClient
-import java.util.*
 import java.util.concurrent.TimeUnit
-import java.util.regex.Pattern
 
 class RulesDatabaseHandler(val jdbc: String, val driver: String, val username: String?, val password: String?) {
 

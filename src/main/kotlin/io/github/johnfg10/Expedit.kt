@@ -19,7 +19,7 @@ import sx.blah.discord.api.IDiscordClient
 import java.io.File
 import kotlin.concurrent.fixedRateTimer
 
-fun main(args: Array<String>){
+fun main(args : Array<String>) {
     //pass flow of control off to Expedit
     Expedit()
 }
