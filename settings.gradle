@@ -1,2 +1,5 @@
 rootProject.name = 'expedit'
+include 'expeditbot'
+include 'expeditweb'
+include 'expeditshared'
 

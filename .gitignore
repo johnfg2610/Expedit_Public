@@ -66,7 +66,7 @@ gradle-app.setting
 *.log
 
 # BlueJ files
-*.ctxt
+*.ctxts
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -88,3 +88,8 @@ expeditconfig\.hocon
 .idea/*
 
 update.sh
+configs/*
+database/*
+*/build/*
+*/out/*
+*.iml
