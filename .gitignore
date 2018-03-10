@@ -93,3 +93,4 @@ database/*
 */build/*
 */out/*
 *.iml
+data/*

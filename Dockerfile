@@ -1,5 +1,4 @@
 FROM openjdk:slim
 WORKDIR /
-ADD expeditbot/build/libs/expeditbot-1.0.0-all.jar /expedit.jar
-ADD configs /configs
+ADD ExpeditBot/build/libs/ExpeditBot.jar /expedit.jar
 CMD java -jar expedit.jar

@@ -1,0 +1,56 @@
+//apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'kotlin'
+
+
+project.ext.set("fuel_version", "1.12.1")
+
+repositories {
+    mavenCentral()
+    maven {
+        url  "https://jitpack.io"
+    }
+    maven {
+        url  "https://dl.bintray.com/kotlin/exposed"
+    }
+}
+
+dependencies {
+
+    compile 'io.github.johnfg10:KDiscordCommandDiscord4j:1.0.20'
+    compile 'com.sedmelluq:lavaplayer:1.2.56'
+
+    compile 'com.rabbitmq:amqp-client:5.1.2'
+
+    compile 'com.cars:docker-secrets:0.2.0'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    compile 'org.jetbrains.exposed:exposed:0.9.1'
+
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.2'
+    //fuel
+    compile "com.github.kittinunf.fuel:fuel:$fuel_version"
+    compile "com.github.kittinunf.fuel:fuel-gson:$fuel_version"
+
+// https://mvnrepository.com/artifact/org.jsoup/jsoup
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
+
+    // https://mvnrepository.com/artifact/commons-cli/commons-cli
+    compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'io.github.johnfg10.ExpeditKt'
+        )
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
